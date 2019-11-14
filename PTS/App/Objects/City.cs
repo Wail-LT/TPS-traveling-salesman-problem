@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace PTS.App.Objects
 {
-    public class Trajet
+    public class City
     {
     }
 }
