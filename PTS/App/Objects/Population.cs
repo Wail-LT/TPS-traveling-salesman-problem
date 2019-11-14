@@ -7,5 +7,6 @@ namespace PTS.App.Objects
 {
     public class Population
     {
+
     }
 }
