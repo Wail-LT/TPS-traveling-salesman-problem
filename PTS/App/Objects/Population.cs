@@ -7,6 +7,20 @@ namespace PTS.App.Objects
 {
     public class Population
     {
+        private List<Journey> journeys;
+
+        public Population(List<Journey> journeys)
+        {
+           
+        }
+
+        public double GetBestFitness()
+        {
+            return 0;
+        }
+
+
+
 
     }
 }

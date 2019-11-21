@@ -7,5 +7,10 @@ namespace PTS.App.Objects
 {
     public class Journey
     {
+
+        public double GetFitness()
+        {
+            return 0;
+        }
     }
 }

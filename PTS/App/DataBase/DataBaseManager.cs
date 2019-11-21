@@ -1,7 +1,7 @@
 ﻿using System;
 namespace PTS.App.DataBase
 {
-    public static class DataBase
+    public static class DataBaseManager
     {
         public static int connection;
 
@@ -10,5 +10,7 @@ namespace PTS.App.DataBase
         {
 
         }
+
+
     }
 }
