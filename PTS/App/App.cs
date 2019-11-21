@@ -52,7 +52,7 @@ namespace PTS.App
                 Console.WriteLine("Generation {0}: {1};", i, app.GetPopulation().GetBestFitness());
 
                 //Store the fitness if it's better than the previous one
-                if (bestFitness > app.GetPopulation().GetBestFitness())
+                if (bestFitness < app.GetPopulation().GetBestFitness())
                     bestFitness = app.GetPopulation().GetBestFitness();
 
                 //Generate the next generation
