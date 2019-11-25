@@ -59,12 +59,11 @@ namespace PTS.App
                 MySqlCommand rqst = DataBaseManager.connection.CreateCommand();
 
                 rqst.CommandText = "SELECT * FROM `villes_france_free` where ville_nom_simple = 'paris'";
-
+                
                 using (DbDataReader reader = rqst.ExecuteReader())
                 {
                     if (reader.HasRows)
                     {
-
                         while (reader.Read())
                         {
                             int ville = reader.GetOrdinal("ville_nom_simple");
