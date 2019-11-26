@@ -19,8 +19,5 @@ namespace PTS.App.Objects
             return 0;
         }
 
-
-
-
     }
 }
