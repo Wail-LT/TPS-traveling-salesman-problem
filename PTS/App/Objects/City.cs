@@ -21,7 +21,7 @@ namespace PTS.App.Objects
             this.coordinates = new GeoCoordinate(latitude, longitude);
         }
 
-        public double GetDistance(City c)
+        public double GetDistanceTo(City c)
         {
             return coordinates.GetDistanceTo(c.Coordinates);
         }
