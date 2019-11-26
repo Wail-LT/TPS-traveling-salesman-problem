@@ -9,19 +9,20 @@ namespace PTS.App.Objects
     {
         List<City> cities;
 
-        public double GetFitness()
+        public Journey(List<City> cities)
         {
-            return 0;
+            this.cities = new List<City>(cities);
         }
 
-        private double GetDistance()
+        public double GetFitness()
         {
-            double dist = 0;
-            for(int i=0; i<cities.Count-1; i++)
+            double fitness = 0;
+            for (int i = 0; i < cities.Count - 1; i++) 
             {
-                dist += cities[i].GetDistance(cities[i + 1]);
+                fitness += cities[i].GetDistanceTo(cities[i + 1]);
             }
-            return dist;
+
+            return fitness;
         }
 
     }
