@@ -9,9 +9,17 @@ namespace PTS.App.Objects
 
     public class City
     {
+        private string name;
         private GeoCoordinate coordinates;  //latitude and longitude
 
+        /*Properties*/
         public GeoCoordinate Coordinates => coordinates;
+
+        public City(string name, double longitude, double latitude)
+        {
+            this.name = name;
+            this.coordinates = new GeoCoordinate(latitude, longitude);
+        }
 
         public double GetDistance(City c)
         {

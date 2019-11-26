@@ -12,11 +12,13 @@ namespace PTS.App.Managers
         {
         }
 
-        public Journey NextJourney(List<string> cities)
+        public Journey NextJourney(Dictionary<string, string> cities)
         {
-
-            SelectionMethodes.Random.Next();
-            throw new NotImplementedException();
+            //recuperer les key du dicctionaire pour les melanger et récuppereler un trajet au hazard
+            //Randomize the cities
+            cities.Shuffle();
+            
+            return null;
         }
 
     }
