@@ -11,7 +11,7 @@ namespace PTS.App.Objects
 
         public Population(List<Journey> journeys)
         {
-           
+            this.journeys = new List<Journey>(journeys);
         }
 
         public double GetBestFitness()
