@@ -17,17 +17,13 @@ namespace PTS.App.Objects
 
         public double GetFitness()
         {
-            return 0;
-        }
-
-        private double GetDistance()
-        {
-            double dist = 0;
-            for(int i=0; i<cities.Count-1; i++)
+            double fitness = 0;
+            for (int i = 0; i < cities.Count - 1; i++) 
             {
-                dist += cities[i].GetDistance(cities[i + 1]);
+                fitness += cities[i].GetDistanceTo(cities[i + 1]);
             }
-            return dist;
+
+            return fitness;
         }
 
     }
