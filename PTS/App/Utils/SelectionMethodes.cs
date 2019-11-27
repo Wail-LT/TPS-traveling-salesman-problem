@@ -11,9 +11,12 @@ namespace PTS.App.Utils
 
         public static Random Random => random;
 
-        public static Journey Tournament(List<Journey> journeys, int size)
+        public static Journey Tournament(List<Journey> journeys)
         {
             List<int> Participant = new List<int>();
+
+            //Create Tournament between 15% of the journeys
+            int size = (int)(journeys.Count * 0.15);
 
             int index = -1;
             int rIndex;
@@ -27,7 +30,7 @@ namespace PTS.App.Utils
 
                 Participant.Add(rIndex);
 
-                if ( index != -1 && journeys[index].GetFitness() > journeys[rIndex].GetFitness())
+                if ( index != -1 && journeys[index].Fitness > journeys[rIndex].Fitness)
                 {
                     index = rIndex;
                 }

@@ -25,20 +25,6 @@ namespace PTS.App
             population = populationManager.GeneratePopulation();
         }
 
-        private void NextGen()
-        {
-            //Generate the next generation
-            Population nextPopulation = populationManager.NextGen(population);
-
-            //store it in the population variable
-            population = nextPopulation;
-        }
-
-        private Population GetPopulation()
-        {
-            return population;
-        }
-
         public static void Start(int nbGeneration)
         {
             //Setup the database connection
@@ -94,7 +80,15 @@ namespace PTS.App
                     app.NextGen();
                 }*/
             }
+        }
 
+        private void NextGen()
+        {
+            //Generate the next generation
+            Population nextPopulation = populationManager.NextGen(population, Utils.SelectionMethodes.Tournament);
+
+            //store it in the population variable
+            population = nextPopulation;
         }
     }
 }

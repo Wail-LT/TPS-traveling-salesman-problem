@@ -9,14 +9,17 @@ namespace PTS.App.Objects
     {
         private List<Journey> journeys;
 
+        /*Properties*/
+        public double BestFitness => this.journeys.First().Fitness;
+        public List<Journey> Journeys => journeys;
+
         public Population(List<Journey> journeys)
         {
+            //Copy the list of journeys
             this.journeys = new List<Journey>(journeys);
-        }
 
-        public double GetBestFitness()
-        {
-            return 0;
+            //Sort the list
+            this.journeys.Sort();
         }
 
     }
