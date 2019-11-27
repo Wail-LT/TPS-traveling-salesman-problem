@@ -9,6 +9,12 @@ namespace PTS.App.Objects
     {
         List<City> cities;
 
+        public Journey(List<City> cities)
+        {
+            this.cities = cities;
+        }
+        public List<City> Cities => cities;
+
         public double GetFitness()
         {
             return 0;
