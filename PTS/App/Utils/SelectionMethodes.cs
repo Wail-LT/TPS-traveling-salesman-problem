@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using PTS.App.Objects;
+using System.Linq;
 
 namespace PTS.App.Utils
 {
@@ -39,5 +40,11 @@ namespace PTS.App.Utils
             return journeys[index];
         }
 
+        public static List<Journey> Elitist(List<Journey> journeys, int nb)
+        {
+            List<Journey> bestJourneys = journeys.OrderBy(j => j.GetFitness()).ToList();
+           
+            return bestJourneys.Take(nb).ToList();
+        }
     }
 }

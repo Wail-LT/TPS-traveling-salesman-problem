@@ -19,6 +19,7 @@ namespace PTS.App.Objects
             this.cities = new List<City>(cities);
             ComputeFitness();
         }
+        public List<City> Cities => cities;
 
        /*
         * Compare 2 journeys using their fitness
