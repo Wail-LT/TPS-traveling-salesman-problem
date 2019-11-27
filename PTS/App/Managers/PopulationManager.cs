@@ -12,13 +12,13 @@ namespace PTS.App.Managers
 
         public const int NUMBER_JOURNEY = 100;
 
-        public PopulationManager(MySqlConnection dbConn, Dictionary<string, string> cities)
+        public PopulationManager(MySqlConnection dbConn)
         {
             this.dbConn = dbConn;
-            this.journeyManager = new JourneyManager(dbConn, cities);
+            this.journeyManager = new JourneyManager(dbConn);
         }
 
-        public Population GeneratePopulation()
+        public Population GeneratePopulation(List<string> cities)
         {
             //New list of journey
             List<Journey> journeys = new List<Journey>();
@@ -26,7 +26,7 @@ namespace PTS.App.Managers
             //Create journeys to create the population
             for (int i = 0; i < NUMBER_JOURNEY; i++)
             {
-                journeys.Add(journeyManager.NextJourney());
+                journeys.Add(journeyManager.NextJourney(cities));
             }
 
             //Create the population
@@ -36,26 +36,9 @@ namespace PTS.App.Managers
             //throw new NotImplementedException();
         }
 
-        public Population NextGen(Population population, Func<Population, Journey> mafunction)
-        {   
-            //New list of journey
-            List<Journey> journeys = new List<Journey>();
-
-            for (int i = 0; i < NUMBER_JOURNEY; i++)
-            {
-                //First step : get two parents  
-                Journey parent1 = mafunction(population);
-                Journey parent2 = mafunction(population);
-
-                //Second step : crossing method
-                Journey child = journeyManager.Crossing(parent1, parent2);
-
-                //Third step : Add the child to the list
-                journeys.Add(child);
-            }
-
-            return new Population(journeys);           
+        public Population NextGen(Population population)
+        {
+            throw new NotImplementedException();
         }
-        
     }
 }

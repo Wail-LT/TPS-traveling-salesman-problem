@@ -16,13 +16,13 @@ namespace PTS.App
         //App components
         private Population population;
         
-        private App(MySqlConnection dbConn, Dictionary<string, string> cities)
+        private App(MySqlConnection dbConn, List<string> cities)
         {
             //1. init the populationManager with connection to the database
-            populationManager = new PopulationManager(dbConn, cities);
+            populationManager = new PopulationManager(dbConn);
 
             //2. Generate the first population
-            population = populationManager.GeneratePopulation();
+            population = populationManager.GeneratePopulation(cities);
         }
 
         private void NextGen()

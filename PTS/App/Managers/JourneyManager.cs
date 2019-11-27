@@ -9,26 +9,17 @@ namespace PTS.App.Managers
 {
     public class JourneyManager
     {
-        private List<City> cities;
-        private CityManager cityManager;
-
-        public JourneyManager(MySql.Data.MySqlClient.MySqlConnection dbConn, Dictionary<string, string> cities)
+        public JourneyManager(MySql.Data.MySqlClient.MySqlConnection dbConn)
         {
-            //Init the cityManager
-            cityManager = new CityManager(dbConn);
-
-            //Get the list of cities
-            List<City> citiesTemp = cityManager.GetCities(cities);
-
-            this.cities = new List<City>(citiesTemp);
         }
 
-        public Journey NextJourney()
+        public Journey NextJourney(Dictionary<string, string> cities)
         {
+            //recuperer les key du dicctionaire pour les melanger et récuppereler un trajet au hazard
             //Randomize the cities
             cities.Shuffle();
-
-            return new Journey(new List<City>(cities));
+            
+            return null;
         }
 
         public Journey Crossover(Journey parent1, Journey parent2)

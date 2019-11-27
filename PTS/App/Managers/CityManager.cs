@@ -16,56 +16,6 @@ namespace PTS.App.Managers
             this.dbConn = dbConn;
         }
 
-        public List<City> GetCities(Dictionary<string, string> cities)
-        {
-            //Create a request to get the city
-            MySqlCommand rqst = DataBaseManager.connection.CreateCommand();
-
-            //Fill the request
-            rqst.CommandText = "SELECT ville_nom_reel, " +
-                "ville_longitude_deg, " +
-                "ville_latitude_deg " +
-                "FROM `villes_france_free` " +
-                $"WHERE UPPER(ville_code_postal, ville_nom_simple) = in (";
-
-            foreach(var item in cities)
-            {
-                rqst.CommandText += $"(UPPER({item.Key}),{item.Value}),";
-            }
-
-            //Remove the last ,
-            rqst.CommandText.Remove(rqst.CommandText.Length - 1);
-
-            //End the request
-            rqst.CommandText += ");";
-
-            //Create the list of cities
-            List<City> citiesList = new List<City>();
-
-            //Running the request  
-            using (DbDataReader reader = rqst.ExecuteReader())
-            {
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-
-                        int cityNameOrd = reader.GetOrdinal("ville_nom_simple");
-                        int longitudeOrd = reader.GetOrdinal("ville_nom_simple");
-                        int latitudeOrd = reader.GetOrdinal("ville_nom_simple");
-
-                        string name = reader.GetString(cityNameOrd);
-                        double longitude = reader.GetDouble(longitudeOrd);
-                        double latitude = reader.GetDouble(latitudeOrd);
-
-                        citiesList.Add(new City(name, longitude, latitude));
-                    }
-                }
-            }
-
-            return citiesList;
-        }
-
         public City GetCity(string cityName, string cityZIP)
         {
             //Create a request to get the city
