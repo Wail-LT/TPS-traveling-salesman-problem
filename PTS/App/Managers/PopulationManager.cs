@@ -48,7 +48,7 @@ namespace PTS.App.Managers
                 Journey parent2 = mafunction(population.Journeys);
 
                 //Second step : crossing method
-                Journey child = journeyManager.Crossover(parent1, parent2);
+                Journey child = parent1.CrossoverWith(parent2);
 
                 //Third step : Add the child to the list
                 journeys.Add(child);

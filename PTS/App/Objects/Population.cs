@@ -22,5 +22,14 @@ namespace PTS.App.Objects
             this.journeys.Sort();
         }
 
+        public string ToString()
+        {
+            string str =  "Population : \n";
+            foreach (Journey j in journeys)
+                str += j.ToString();
+
+            return str;
+        }
+
     }
 }

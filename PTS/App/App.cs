@@ -39,31 +39,39 @@ namespace PTS.App
 
             if (DataBaseManager.connection != null)
             {
+
+                Dictionary<string, string> cities = new Dictionary<string, string>();
+
+                cities.Add("34000", "Montpellier");
+                cities.Add("38100", "Grenoble");
+                cities.Add("75001", "Paris");
+                cities.Add("44100", "Nantes");
+                cities.Add("68100", "Mulhouse");
+                cities.Add("59300", "Valenciennes");
+
                 //init the app with database connection
-                //App app = new App(DataBaseManager.connection);
+                App app = new App(DataBaseManager.connection, cities);
 
-                MySqlCommand rqst = DataBaseManager.connection.CreateCommand();
+                double bestFitness = app.population.BestFitness;
 
-                rqst.CommandText = "SELECT * FROM `villes_france_free` where ville_nom_simple = 'paris'";
-
-                using (DbDataReader reader = rqst.ExecuteReader())
+                for (int i = 0; i < 99; i++)
                 {
-                    if (reader.HasRows)
-                    {
+                    //Print the current population
+                    Console.WriteLine("GEN {0}", i);
+                    Console.WriteLine(app.population.ToString());
 
-                        while (reader.Read())
-                        {
-                            int ville = reader.GetOrdinal("ville_nom_simple");
-                            Console.WriteLine("Ville : {0}", reader.GetString(ville));
-                            Console.WriteLine("Longitude : {0}", reader.GetOrdinal("ville_longitude_deg"));
-                            Console.WriteLine("Latitude : {0}", reader.GetOrdinal("ville_latitude_deg"));
-                        }
-                    }
+                    if (bestFitness > app.population.BestFitness)
+                        bestFitness = app.population.BestFitness;
+
+                    //Generate the new one; Journey : Montpellier, Grenoble, Mulhouse, Valenciennes, Paris, Nantes,  Fitness : 1470216.5560350444
+                    app.NextGen();
                 }
 
-                rqst.DisposeAsync();
+                //Print the last generation
+                Console.WriteLine("GEN 100");
+                Console.WriteLine(app.population.ToString());
 
-                DataBaseManager.CloseConnection();
+                Console.WriteLine("BestFitness Found = {0}", bestFitness);
 
                 /*double bestFitness = app.GetPopulation().GetBestFitness();
 
@@ -79,6 +87,8 @@ namespace PTS.App
                     //Generate the next generation
                     app.NextGen();
                 }*/
+
+                DataBaseManager.CloseConnection();
             }
         }
 

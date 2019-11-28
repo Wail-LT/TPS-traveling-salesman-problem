@@ -25,6 +25,11 @@ namespace PTS.App.Objects
         {
             return coordinates.GetDistanceTo(c.Coordinates);
         }
+
+        public string ToString()
+        {
+            return name ;
+        }
     }
 
     
