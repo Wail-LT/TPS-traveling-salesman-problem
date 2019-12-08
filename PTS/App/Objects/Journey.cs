@@ -8,31 +8,36 @@ namespace PTS.App.Objects
 {
     public class Journey : IComparable<Journey>
     {
-        private List<City> cities;
+        //Initilized only in constructor so use readonly is a better practice 
+        public readonly List<City> Cities;
         private double fitness;
 
         public double Fitness => fitness;
 
-        public List<City> Cities => cities;
-
         public Journey(List<City> cities)
         {
-            this.cities = new List<City>(cities);
+            this.Cities = new List<City>(cities);
             ComputeFitness();
         }
-        
-       /*
-        * Compare 2 journeys using their fitness
-        * returns : 0 if equals;
-        *           -1 if this is better;
-        *           1 if other is better;
-        */
+
+        public Journey(Journey journey)
+        {
+            this.Cities = new List<City>(journey.Cities);
+            this.fitness = journey.fitness;
+        }
+
+        /*
+         * Compare 2 journeys using their fitness
+         * returns : 0 if equals;
+         *           -1 if this is better;
+         *           1 if other is better;
+         */
         public int CompareTo([AllowNull] Journey other)
         {
             if (other == null || this.Fitness < other.Fitness)
                 return -1;
 
-            if (this.Fitness > other.Fitness)
+            if (other != null && this.Fitness > other.Fitness)
                 return 1;
 
             return 0;
@@ -95,7 +100,7 @@ namespace PTS.App.Objects
         public string ToString()
         {
             string str = "Journey : ";
-            foreach (City c in cities)
+            foreach (City c in Cities)
                 str += c.ToString() + ", ";
             str += " Fitness : " + fitness + "\n";
 
@@ -105,9 +110,9 @@ namespace PTS.App.Objects
         private void ComputeFitness()
         {
             this.fitness = 0;
-            for (int i = 0; i < cities.Count - 1; i++)
+            for (int i = 0; i < Cities.Count - 1; i++)
             {
-                this.fitness += cities[i].GetDistanceTo(cities[i + 1]);
+                this.fitness += Cities[i].GetDistanceTo(Cities[i + 1]);
             }
         }
 

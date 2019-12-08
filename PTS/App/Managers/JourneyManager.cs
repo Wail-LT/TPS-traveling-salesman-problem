@@ -26,7 +26,7 @@ namespace PTS.App.Managers
         public Journey NextJourney()
         {
             //Randomize the cities
-            cities.Shuffle();
+            cities.Shuffle(1);
 
             return new Journey(new List<City>(cities));
         }

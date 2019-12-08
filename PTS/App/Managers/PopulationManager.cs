@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using MySql.Data.MySqlClient;
 using PTS.App.Objects;
 
@@ -10,12 +11,15 @@ namespace PTS.App.Managers
         private MySqlConnection dbConn;
         private JourneyManager journeyManager;
 
-        public const int NUMBER_JOURNEY = 100;
+        public readonly int NUMBER_JOURNEY;
 
         public PopulationManager(MySqlConnection dbConn, Dictionary<string, string> cities)
         {
             this.dbConn = dbConn;
             this.journeyManager = new JourneyManager(dbConn, cities);
+
+            //The number of journey = 15% of all possibilities
+            NUMBER_JOURNEY = (int)(Utils.Utils.Factor(cities.Count - 1) * 0.15);
         }
 
         public Population GeneratePopulation()
@@ -23,10 +27,21 @@ namespace PTS.App.Managers
             //New list of journey
             List<Journey> journeys = new List<Journey>();
 
+            Journey tempJourney;
+
             //Create journeys to create the population
             for (int i = 0; i < NUMBER_JOURNEY; i++)
             {
-                journeys.Add(journeyManager.NextJourney());
+                tempJourney = journeyManager.NextJourney();
+
+                //If the journey already exists in the list generate another one
+                while (journeys.Exists(j => j != null && j.Cities.SequenceEqual(tempJourney.Cities)))
+                {
+                    tempJourney = journeyManager.NextJourney();
+                }
+
+                //Else add it to the list
+                journeys.Add(new Journey(tempJourney));
             }
 
             //Create the population
