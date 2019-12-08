@@ -12,6 +12,7 @@ namespace PTS.App.Managers
         private JourneyManager journeyManager;
 
         public readonly int NUMBER_JOURNEY;
+        public const int MAX_NUMBER_JOURNEY = 100;
 
         public PopulationManager(MySqlConnection dbConn, Dictionary<string, string> cities)
         {
@@ -20,6 +21,8 @@ namespace PTS.App.Managers
 
             //The number of journey = 15% of all possibilities
             NUMBER_JOURNEY = (int)(Utils.Utils.Factor(cities.Count - 1) * 0.15);
+            //If number of journey > 100 set it to 100
+            NUMBER_JOURNEY = NUMBER_JOURNEY > MAX_NUMBER_JOURNEY ? MAX_NUMBER_JOURNEY : NUMBER_JOURNEY;
         }
 
         public Population GeneratePopulation()
