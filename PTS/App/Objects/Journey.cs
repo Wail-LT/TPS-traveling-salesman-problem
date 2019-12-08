@@ -68,14 +68,6 @@ namespace PTS.App.Objects
                     child[i] = cities2[i];
             }
 
-            for (int i = 0; i < cities1.Count; i++)
-            {
-                if (i >= pivot1 && i <= pivot2)
-                {
-                    child[i] = cities2[i];
-                }
-            }
-
             foreach (City city in cities1)
             {
                 if (!child.Contains(city))
