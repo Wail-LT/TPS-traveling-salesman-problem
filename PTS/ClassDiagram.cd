@@ -1,4 +1,115 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
-<ClassDiagram MajorVersion="1" MinorVersion="1">
-    <Font Name="Segoe UI" Size="9" />
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="PTS.App.DataBase.DataBaseManager">
+    <Position X="2.5" Y="4" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAAAABAAAABABEAAAAAAAgAAAgAAgAAAAA=</HashCode>
+      <FileName>App\DataBase\DataBaseManager.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="connection" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="PTS.App.Managers.CityManager">
+    <Position X="5.25" Y="0.5" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAAAAAIAAAAAAAAAAAAAAAAEAAAAAAAAAA=</HashCode>
+      <FileName>App\Managers\CityManager.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="dbConn" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="PTS.App.Managers.JourneyManager">
+    <Position X="10" Y="4" Width="5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAABAAEAA=</HashCode>
+      <FileName>App\Managers\JourneyManager.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="cities" />
+      <Field Name="cityManager" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="PTS.App.Managers.PopulationManager">
+    <Position X="10" Y="0.5" Width="6" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAAAAAAAAAAAEAAUAAAgBAAAAAAAAAAAAA=</HashCode>
+      <FileName>App\Managers\PopulationManager.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="dbConn" />
+      <Field Name="journeyManager" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="PTS.App.Objects.City">
+    <Position X="5.25" Y="4" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAACEAAAgAAAAIAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>App\Objects\City.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PTS.App.Objects.Journey" BaseTypeListCollapsed="true">
+    <Position X="18.75" Y="4" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>EAAgAAAAIAAAAAQUAAAAAAAAAAAAAAABAAAAAAAAAAA=</HashCode>
+      <FileName>App\Objects\Journey.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="Cities" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.115" Collapsed="true" />
+  </Class>
+  <Class Name="PTS.App.Objects.Population">
+    <Position X="15.5" Y="5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAgAAAAIAAAAAAACAAAAA=</HashCode>
+      <FileName>App\Objects\Population.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="journeys" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="PTS.App.Utils.IListExtension">
+    <Position X="0.5" Y="0.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAA=</HashCode>
+      <FileName>App\Utils\IListExtension.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PTS.App.Utils.SelectionMethodes">
+    <Position X="0.5" Y="2" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>App\Utils\SelectionMethodes.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PTS.App.Utils.Utils">
+    <Position X="0.5" Y="4" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAA=</HashCode>
+      <FileName>App\Utils\Utils.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PTS.App.App">
+    <Position X="17" Y="0.5" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAChAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>App\App.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="population" />
+      <Field Name="populationManager" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="System.Collections.Generic.List&lt;T&gt;" Collapsed="true">
+    <Position X="16" Y="4" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="MySql.Data.MySqlClient.MySqlConnection" Collapsed="true">
+    <Position X="6.5" Y="3" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>
