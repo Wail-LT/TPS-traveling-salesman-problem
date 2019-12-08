@@ -54,7 +54,7 @@ namespace PTS.App.Managers
             //throw new NotImplementedException();
         }
 
-        public Population NextGen(Population population, Func<List<Journey>, Journey> mafunction)
+        public Population NextGen(Population population, Func<List<Journey>, Journey> selectionMethode)
         {   
             //New list of journey
             List<Journey> journeys = new List<Journey>();
@@ -62,11 +62,17 @@ namespace PTS.App.Managers
             for (int i = 0; i < NUMBER_JOURNEY; i++)
             {
                 //First step : get two parents  
-                Journey parent1 = mafunction(population.Journeys);
-                Journey parent2 = mafunction(population.Journeys);
+                Journey parent1 = selectionMethode(population.Journeys);
+                Journey parent2 = selectionMethode(population.Journeys);
 
                 //Second step : crossing method
                 Journey child = parent1.CrossoverWith(parent2);
+
+                //If the journey already exists in the list generate another one
+                while (journeys.Exists(j => j != null && j.Cities.SequenceEqual(child.Cities)))
+                {
+                    child = parent1.CrossoverWith(parent2);
+                }
 
                 //Third step : Add the child to the list
                 journeys.Add(child);

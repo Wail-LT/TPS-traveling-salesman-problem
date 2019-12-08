@@ -26,7 +26,7 @@ namespace PTS.App.Objects
             return coordinates.GetDistanceTo(c.Coordinates);
         }
 
-        public string ToString()
+        public override string ToString()
         {
             return name ;
         }

@@ -50,12 +50,12 @@ namespace PTS.App.Objects
 
             Random rand = Utils.Utils.Random;
 
-            int pivot1 = rand.Next(1, cities1.Count - 2);
-            int pivot2 = rand.Next(1, cities1.Count - 2);
+            int pivot1 = rand.Next(0, cities1.Count - 1);
+            int pivot2 = rand.Next(0, cities1.Count - 1);
 
             while (pivot2 == pivot1)
             {
-                pivot2 = rand.Next(1, cities1.Count - 2);
+                pivot2 = rand.Next(0, cities1.Count - 1);
             }
 
             if (pivot1 > pivot2)
@@ -97,7 +97,10 @@ namespace PTS.App.Objects
             return new Journey(child);
         }
 
-        public string ToString()
+
+
+        /*Override*/
+        public override string ToString()
         {
             string str = "Journey : ";
             foreach (City c in Cities)
@@ -107,6 +110,9 @@ namespace PTS.App.Objects
             return str;
         }
 
+
+
+        /*Private*/
         private void ComputeFitness()
         {
             this.fitness = 0;
