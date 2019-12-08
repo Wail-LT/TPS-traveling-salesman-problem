@@ -43,8 +43,6 @@ namespace PTS.App.Managers
                 //End the request
                 rqst.CommandText += ";";
 
-                Console.WriteLine(rqst.CommandText);
-
                 //Create the list of cities
                 List<City> citiesList = new List<City>();
 

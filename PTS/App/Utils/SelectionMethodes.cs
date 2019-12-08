@@ -8,6 +8,7 @@ namespace PTS.App.Utils
 {
     public static class SelectionMethodes
     {
+        private static double ELITIST_OFFSET = 0.15;
         public static Journey Tournament(List<Journey> journeys)
         {
             List<int> Participant = new List<int>();
@@ -47,11 +48,15 @@ namespace PTS.App.Utils
             return journeys[index];
         }
 
-        public static List<Journey> Elitist(List<Journey> journeys, int nb)
+        public static Journey Elitist(List<Journey> journeys)
         {
-            List<Journey> bestJourneys = journeys.OrderBy(j => j.Fitness).ToList();
-           
-            return bestJourneys.Take(nb).ToList();
+            Random random = Utils.Random;
+
+            List<Journey> bestJourneys = journeys.OrderBy(j => j.Fitness)
+                                                 .Take((int)(journeys.Count * ELITIST_OFFSET))
+                                                 .ToList();
+
+            return bestJourneys[random.Next(bestJourneys.Count)];
         }
     }
 }
