@@ -90,22 +90,23 @@ namespace PTS.App.Objects
         }
 
         //fonction mutate qui donne la chance à chaque ville du trajet de s'échanger avec une autre ville
-        public void mutate(double prob_mut)
+        public void Mutate()
         {
             Random random = Utils.Utils.Random;
-            int indexPos2;
-            for (int i = 0; i < this.Cities.Count; i++)
+
+            int n = Cities.Count;
+            double mutateFactor = 1 / 3;
+
+            while (n > 1)
             {
-                if (random.NextDouble() < prob_mut)
+                n--;
+                if (random.NextDouble() < mutateFactor)
                 {
-                    indexPos2 = random.Next(0, Cities.Count);
-                    City ville1 = Cities[i];
-                    City ville2 = Cities[indexPos2];
-
-                    Cities[i] = ville2;
-                    Cities[indexPos2] = ville1;
+                    int k = random.Next(1, n + 1);
+                    City tempCity = Cities[k];
+                    Cities[k] = Cities[n];
+                    Cities[n] = tempCity;
                 }
-
 
             }
         }

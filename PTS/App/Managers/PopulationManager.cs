@@ -41,7 +41,6 @@ namespace PTS.App.Managers
                 while (journeys.Exists(j => j != null && j.Cities.SequenceEqual(tempJourney.Cities)))
                 {
                     tempJourney = journeyManager.NextJourney();
-                    tempJourney.m
                 }
 
                 //Else add it to the list
@@ -55,7 +54,7 @@ namespace PTS.App.Managers
             //throw new NotImplementedException();
         }
 
-        public Population NextGen(Population population, Func<List<Journey>, Journey> selectionMethode)
+        public Population NextGen(Population population, Func<List<Journey>, Journey> selectionMethode, double mutateFactor)
         {   
             //New list of journey
             List<Journey> journeys = new List<Journey>();
@@ -76,6 +75,9 @@ namespace PTS.App.Managers
                     child = parent1.CrossoverWith(parent2);
 
                 } while (journeys.Exists(j => j != null && j.Cities.SequenceEqual(child.Cities)));
+
+                if (Utils.Utils.Random.NextDouble() < mutateFactor)
+                    child.Mutate();
 
                 //Third step : Add the child to the list
                 journeys.Add(new Journey(child));
