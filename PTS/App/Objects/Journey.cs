@@ -89,6 +89,27 @@ namespace PTS.App.Objects
             return new Journey(child);
         }
 
+        //fonction mutate qui donne la chance à chaque ville du trajet de s'échanger avec une autre ville
+        public void mutate(double prob_mut)
+        {
+            Random random = Utils.Utils.Random;
+            int indexPos2;
+            for (int i = 0; i < this.Cities.Count; i++)
+            {
+                if (random.NextDouble() < prob_mut)
+                {
+                    indexPos2 = random.Next(0, Cities.Count);
+                    City ville1 = Cities[i];
+                    City ville2 = Cities[indexPos2];
+
+                    Cities[i] = ville2;
+                    Cities[indexPos2] = ville1;
+                }
+
+
+            }
+        }
+
 
 
         /*Override*/
