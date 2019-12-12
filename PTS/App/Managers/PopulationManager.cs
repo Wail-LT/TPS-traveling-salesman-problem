@@ -12,7 +12,7 @@ namespace PTS.App.Managers
         private JourneyManager journeyManager;
 
         public readonly int NUMBER_JOURNEY;
-        public const int MAX_NUMBER_JOURNEY = 100;
+        public const int MAX_NUMBER_JOURNEY = 300;
 
         public PopulationManager(MySqlConnection dbConn, Dictionary<string, string> cities)
         {
@@ -41,6 +41,7 @@ namespace PTS.App.Managers
                 while (journeys.Exists(j => j != null && j.Cities.SequenceEqual(tempJourney.Cities)))
                 {
                     tempJourney = journeyManager.NextJourney();
+                    tempJourney.m
                 }
 
                 //Else add it to the list
@@ -59,23 +60,25 @@ namespace PTS.App.Managers
             //New list of journey
             List<Journey> journeys = new List<Journey>();
 
+            Journey parent1,
+                    parent2,
+                    child;
+
             for (int i = 0; i < NUMBER_JOURNEY; i++)
             {
-                //First step : get two parents  
-                Journey parent1 = selectionMethode(population.Journeys);
-                Journey parent2 = selectionMethode(population.Journeys);
-
-                //Second step : crossing method
-                Journey child = parent1.CrossoverWith(parent2);
-
-                //If the journey already exists in the list generate another one
-                while (journeys.Exists(j => j != null && j.Cities.SequenceEqual(child.Cities)))
+                do
                 {
+                    //First step : get two parents  
+                    parent1 = selectionMethode(population.Journeys);
+                    parent2 = selectionMethode(population.Journeys);
+
+                    //Second step : crossing method
                     child = parent1.CrossoverWith(parent2);
-                }
+
+                } while (journeys.Exists(j => j != null && j.Cities.SequenceEqual(child.Cities)));
 
                 //Third step : Add the child to the list
-                journeys.Add(child);
+                journeys.Add(new Journey(child));
             }
 
             return new Population(journeys);           

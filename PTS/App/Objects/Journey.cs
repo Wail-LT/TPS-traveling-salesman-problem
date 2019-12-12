@@ -11,7 +11,7 @@ namespace PTS.App.Objects
         //Initilized only in constructor so use readonly is a better practice 
         public readonly List<City> Cities;
         private double fitness;
-
+        
         public double Fitness => fitness;
 
         public Journey(List<City> cities)
@@ -50,12 +50,12 @@ namespace PTS.App.Objects
 
             Random rand = Utils.Utils.Random;
 
-            int pivot1 = rand.Next(0, cities1.Count - 1);
-            int pivot2 = rand.Next(0, cities1.Count - 1);
+            int pivot1 = rand.Next(1, cities1.Count - 1);
+            int pivot2 = rand.Next(1, cities1.Count - 1);
 
             while (pivot2 == pivot1)
             {
-                pivot2 = rand.Next(0, cities1.Count - 1);
+                pivot2 = rand.Next(1, cities1.Count - 1);
             }
 
             if (pivot1 > pivot2)
@@ -97,7 +97,7 @@ namespace PTS.App.Objects
             string str = "Journey : ";
             foreach (City c in Cities)
                 str += c.ToString() + ", ";
-            str += " Fitness : " + fitness + "\n";
+            str += " Fitness : " + Math.Round(this.fitness / 1000, 2) + "  " + fitness + " km\n";
 
             return str;
         }
@@ -112,6 +112,9 @@ namespace PTS.App.Objects
             {
                 this.fitness += Cities[i].GetDistanceTo(Cities[i + 1]);
             }
+            this.fitness += Cities.Last().GetDistanceTo(Cities.First());
+
+            //this.fitness = Math.Round(this.fitness / 1000, 2);
         }
 
     }

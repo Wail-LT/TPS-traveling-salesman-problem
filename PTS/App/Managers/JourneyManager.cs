@@ -21,6 +21,7 @@ namespace PTS.App.Managers
             List<City> citiesTemp = cityManager.GetCities(cities);
 
             this.cities = new List<City>(citiesTemp);
+
         }
 
         public Journey NextJourney()

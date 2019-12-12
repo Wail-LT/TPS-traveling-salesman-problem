@@ -10,6 +10,7 @@ namespace PTS.App.Objects
         private List<Journey> journeys;
 
         /*Properties*/
+        public Journey BestJourney => this.journeys.First();
         public double BestFitness => this.journeys.First().Fitness;
         public List<Journey> Journeys => journeys;
 

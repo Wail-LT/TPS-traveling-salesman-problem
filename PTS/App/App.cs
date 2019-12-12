@@ -48,54 +48,109 @@ namespace PTS.App
                 cities.Add("44100", "Nantes");
                 cities.Add("68100", "Mulhouse");
                 cities.Add("59300", "Valenciennes");
+                cities.Add("06100", "Nice");
+                cities.Add("14100", "Lisieux");
+                cities.Add("57000", "Metz");
+                cities.Add("33310", "Lormont");
+                cities.Add("31000", "Toulouse");
 
+                Console.WriteLine("TOURNOI");
                 //init the app with database connection
                 App app = new App(DataBaseManager.connection, cities);
 
-                double bestFitness = app.population.BestFitness;
+                Journey bestCity = app.population.BestJourney;
+                int bestGen = 0;
+
+                //Print the first population
+                Console.WriteLine("GEN {0}", 1);
+                Console.WriteLine(app.population.ToString());
 
                 for (int i = 0; i < 99; i++)
                 {
-                    //Print the current population
-                    Console.WriteLine("GEN {0}", i);
-                    Console.WriteLine(app.population.ToString());
+                    if (bestCity.Fitness > app.population.BestFitness)
+                    {
+                        //Print the current population
+                        Console.WriteLine("GEN {0}", i);
+                        Console.WriteLine(app.population.ToString());
 
-                    if (bestFitness > app.population.BestFitness)
-                        bestFitness = app.population.BestFitness;
+                        bestCity = app.population.BestJourney;
+                        bestGen = i;
+                    }
+
 
                     //Generate the new one; Journey : Montpellier, Grenoble, Mulhouse, Valenciennes, Paris, Nantes,  Fitness : 1470216.5560350444
-                    app.NextGen();
+                    app.NextGen(Utils.SelectionMethodes.Elitist);
                 }
 
-                //Print the last generation
-                Console.WriteLine("GEN 100");
+                if (bestCity.Fitness > app.population.BestFitness)
+                {
+                    //Print the last generation
+                    Console.WriteLine("GEN 100");
+                    Console.WriteLine(app.population.ToString());
+
+                    bestCity = app.population.BestJourney;
+                    bestGen = 100;
+                }
+
+                Console.WriteLine("Best Journey Found : \n " +
+                    "{0}\n" +
+                    "Generation : {1}",
+                    bestCity,
+                    bestGen);
+
+
+                Console.WriteLine("ELITISTE");
+                //init the app with database connection
+                app = new App(DataBaseManager.connection, cities);
+
+                bestCity = app.population.BestJourney;
+                bestGen = 0;
+
+
+                //Print the first population
+                Console.WriteLine("GEN {0}", 1);
                 Console.WriteLine(app.population.ToString());
 
-                Console.WriteLine("BestFitness Found = {0}", bestFitness);
-
-                /*double bestFitness = app.GetPopulation().GetBestFitness();
-
-                for (int i = 0; i < nbGeneration; i++)
+                for (int i = 0; i < 99; i++)
                 {
-                    //Get and print the best fitness of the generation and the generation number
-                    Console.WriteLine("Generation {0}: {1};", i, app.GetPopulation().GetBestFitness());
+                    if (bestCity.Fitness > app.population.BestFitness)
+                    {
+                        //Print the current population
+                        Console.WriteLine("GEN {0}", i);
+                        Console.WriteLine(app.population.ToString());
 
-                    //Store the fitness if it's better than the previous one
-                    if (bestFitness > app.GetPopulation().GetBestFitness())
-                        bestFitness = app.GetPopulation().GetBestFitness();
+                        bestCity = app.population.BestJourney;
+                        bestGen = i;
+                    }
 
-                    //Generate the next generation
-                    app.NextGen();
-                }*/
 
+                    //Generate the new one; Journey : Montpellier, Grenoble, Mulhouse, Valenciennes, Paris, Nantes,  Fitness : 1470216.5560350444
+                    app.NextGen(Utils.SelectionMethodes.Elitist);
+                }
+
+                if (bestCity.Fitness > app.population.BestFitness)
+                {
+                    //Print the last generation
+                    Console.WriteLine("GEN 100");
+                    Console.WriteLine(app.population.ToString());
+
+                    bestCity = app.population.BestJourney;
+                    bestGen = 100;
+                }
+
+                Console.WriteLine("Best Journey Found : \n " +
+                    "{0}\n" +
+                    "Generation : {1}",
+                    bestCity,
+                    bestGen);
                 DataBaseManager.CloseConnection();
             }
         }
 
-        private void NextGen()
+        private void NextGen(Func<List<Journey>, Journey> selectionMethode)
         {
             //Generate the next generation
-            Population nextPopulation = populationManager.NextGen(population, Utils.SelectionMethodes.Tournament);
+            Population nextPopulation = populationManager.NextGen(population, selectionMethode);
 
             //store it in the population variable
             population = nextPopulation;
