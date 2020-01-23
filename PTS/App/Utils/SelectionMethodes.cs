@@ -58,5 +58,48 @@ namespace PTS.App.Utils
 
             return bestJourneys[random.Next(bestJourneys.Count)];
         }
+
+        private static  List<int> Stochastique(List<Journey> journeys,int nbReproduction)
+        {
+            double fitnessTotal = 0;
+            List<double> pourcentageCumuler = new List<double>();
+            List<int> indexReproduction = new List<int>();
+            Random random = Utils.Random;
+           
+            //allows to have the total of the fitness
+            for (int i=0; i<journeys.Count; i++)
+            {
+                fitnessTotal = fitnessTotal + journeys[i].Fitness;
+            }
+            //on calcule le pourcentage cumulé de chaque fitness pr avoir la répartition de chaque fitness
+            pourcentageCumuler.Add(journeys[0].Fitness / fitnessTotal);
+            for (int i = 1; i < journeys.Count; i++)
+            {
+                pourcentageCumuler.Add(( journeys[0].Fitness / fitnessTotal) + pourcentageCumuler[i - 1]);              
+            }
+
+            int parentIndex;
+            double randomPourcentage;
+
+            //nous permet de trouver l'index du nbre correspodant au aléatoire qu'on tire, si on tire 5,2 ca nous retourne lindex du nombre qui correspond à la ou il y a 52%
+            for (int i = 0; i < nbReproduction; i++)
+            {
+                randomPourcentage = random.NextDouble();
+                parentIndex = pourcentageCumuler.IndexOf(pourcentageCumuler.Find(pourcentage =>
+                {
+                    int currentIndex = pourcentageCumuler.IndexOf(pourcentage);
+
+                    if (currentIndex > 0)
+                        return pourcentageCumuler[currentIndex - 1] > randomPourcentage && randomPourcentage <= pourcentage;
+                    else
+                        return randomPourcentage <= pourcentage;
+
+                }));
+
+                indexReproduction.Add(parentIndex);
+            }
+            return indexReproduction;
+
+        }
     }
 }
