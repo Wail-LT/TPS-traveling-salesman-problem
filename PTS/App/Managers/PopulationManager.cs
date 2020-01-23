@@ -38,7 +38,7 @@ namespace PTS.App.Managers
                 tempJourney = journeyManager.NextJourney();
 
                 //If the journey already exists in the list generate another one
-                while (journeys.Exists(j => j != null && j.Cities.SequenceEqual(tempJourney.Cities)))
+                while (journeys.Exists(j => j != null && j.cities.SequenceEqual(tempJourney.cities)))
                 {
                     tempJourney = journeyManager.NextJourney();
                 }
@@ -74,7 +74,7 @@ namespace PTS.App.Managers
                     //Second step : crossing method
                     child = parent1.CrossoverWith(parent2);
 
-                } while (journeys.Exists(j => j != null && j.Cities.SequenceEqual(child.Cities)));
+                } while (journeys.Exists(j => j != null && j.cities.SequenceEqual(child.cities)));
 
                 if (Utils.Utils.Random.NextDouble() < mutateFactor)
                     child.Mutate();

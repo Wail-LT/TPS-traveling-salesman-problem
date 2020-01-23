@@ -101,5 +101,43 @@ namespace PTS.App.Utils
             return indexReproduction;
 
         }
+
+        //Method "BEFORE"
+        public static Journey PreSelect(List<City> cities)
+        {
+            List<double> totalDistances = new List<double>(cities.Count);
+            List<City> parentJourney = new List<City>(cities.Count);
+            List<City> adjacentCities = new List<City>(cities);
+
+            //Calculate total sum of distances from each city to the others
+            for (int i = 0; i < adjacentCities.Count; i++)
+            {
+                double dist = 0;
+                for (int j = 0; j < adjacentCities.Count; j++)
+                {
+                    if (i != j)
+                        dist += adjacentCities[i].GetDistanceTo(adjacentCities[j]);
+                }
+                totalDistances.Add(dist);
+            }
+
+            double minDist = totalDistances.Min();
+            City startCity = adjacentCities[totalDistances.IndexOf(minDist)];
+            City lastCity = startCity;
+            parentJourney.Add(startCity);
+            adjacentCities.Remove(startCity);
+
+            List<double> delta = new List<double>(adjacentCities.Count);
+            for (int i = 0; i < adjacentCities.Count; i++)
+            {
+                City nextCity = Journey.CompareCities(startCity, lastCity, adjacentCities);
+                parentJourney.Add(nextCity);
+                adjacentCities.Remove(nextCity);
+                lastCity = nextCity;
+            }
+
+            return new Journey(parentJourney);
+
+        }
     }
 }
