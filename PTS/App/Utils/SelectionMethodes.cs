@@ -9,6 +9,7 @@ namespace PTS.App.Utils
     public static class SelectionMethodes
     {
         private static double ELITIST_OFFSET = 0.15;
+        private static List<int> indexMates = new List<int>();
         public static Journey Tournament(List<Journey> journeys)
         {
             List<int> Participant = new List<int>();
@@ -138,6 +139,23 @@ namespace PTS.App.Utils
 
             return new Journey(parentJourney);
 
+        }
+        public static int SelectBefore(List<Journey> journeys, )
+        {
+            Random random = Utils.Random;
+
+            //The 15% journeys 
+            int pivot = (int)(0.15 * journeys.Count);
+            List<Journey> bestJourneys = journeys.Take(pivot).ToList();
+            List<Journey> badJourneys = journeys.Skip(pivot).ToList();
+
+           // List<int> indexMates = Stochastique(badJourneys, pivot);
+           // List<Journey> mates =
+           if (SelectionMethodes.indexMates==null || SelectionMethodes.indexMates.Count==0)
+                indexMates = Stochastique(badJourneys, pivot);
+                Random randomIndex = Utils.Random;
+                int indexSorti = randomIndex.Next(0, indexMates.Count);
+            return indexMates[indexSorti]; //A REVOIR car rertourne index faurdrai retourner un trajet merci a bientot 
         }
     }
 }

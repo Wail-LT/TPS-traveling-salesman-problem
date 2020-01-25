@@ -79,7 +79,7 @@ namespace PTS.App
 
 
                     //Generate the new one; Journey : Montpellier, Grenoble, Mulhouse, Valenciennes, Paris, Nantes,  Fitness : 1470216.5560350444
-                    app.NextGen(Utils.SelectionMethodes.Elitist);
+                    app.NextGen(Utils.SelectionMethodes.Tournament);
                 }
 
                 if (bestCity.Fitness > app.population.BestFitness)
@@ -150,7 +150,7 @@ namespace PTS.App
         private void NextGen(Func<List<Journey>, Journey> selectionMethode)
         {
             //Generate the next generation
-            Population nextPopulation = populationManager.NextGen(population, selectionMethode);
+            Population nextPopulation = populationManager.NextGen(population, selectionMethode, 0.1);
 
             //store it in the population variable
             population = nextPopulation;
