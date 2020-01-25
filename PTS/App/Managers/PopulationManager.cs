@@ -73,7 +73,7 @@ namespace PTS.App.Managers
 
                     //Second step : crossing method
                     child = parent1.CrossoverWith(parent2);
-
+                    
                 } while (routes.Exists(j => j != null && j.Cities.SequenceEqual(child.Cities)));
 
                 if (Utils.Utils.Random.NextDouble() < mutateFactor)

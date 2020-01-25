@@ -76,10 +76,9 @@ namespace PTS.App
                         bestCity = app.population.BestRoute;
                         bestGen = i;
                     }
-
-
-                    //Generate the new one; Route : Montpellier, Grenoble, Mulhouse, Valenciennes, Paris, Nantes,  Fitness : 1470216.5560350444
-                    app.NextGen(Utils.SelectionMethodes.Elitist);
+                    
+                    //Generate the new one; Journey : Montpellier, Grenoble, Mulhouse, Valenciennes, Paris, Nantes,  Fitness : 1470216.5560350444
+                    app.NextGen(Utils.SelectionMethodes.Tournament);
                 }
 
                 if (bestCity.Fitness > app.population.BestFitness)
