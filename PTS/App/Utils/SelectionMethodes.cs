@@ -9,17 +9,17 @@ namespace PTS.App.Utils
     public static class SelectionMethodes
     {
         private static double ELITIST_OFFSET = 0.15;
-        public static Journey Tournament(List<Journey> journeys)
+        public static Route Tournament(List<Route> routes)
         {
             List<int> Participant = new List<int>();
 
-            //Create Tournament between 15% of the journeys
-            int size = (int)(journeys.Count * 0.15);
+            //Create Tournament between 15% of the routes
+            int size = (int)(routes.Count * 0.15);
 
             Random random = Utils.Random;
 
             //First participant
-            int index = random.Next(0, journeys.Count);
+            int index = random.Next(0, routes.Count);
             //Add it to the list of participant
             Participant.Add(index);
 
@@ -31,7 +31,7 @@ namespace PTS.App.Utils
                 do
                 {
                     //New random participant
-                    rIndex = random.Next(0, journeys.Count);
+                    rIndex = random.Next(0, routes.Count);
                 } while (Participant.Contains(rIndex));
 
                 //Add it to the list of participant
@@ -39,24 +39,24 @@ namespace PTS.App.Utils
 
                 //If fitess of the new participant is better than the current best one
                 //then save it as better participant
-                if (journeys[index].Fitness > journeys[rIndex].Fitness)
+                if (routes[index].Fitness > routes[rIndex].Fitness)
                 {
                     index = rIndex;
                 }
             }
 
-            return journeys[index];
+            return routes[index];
         }
 
-        public static Journey Elitist(List<Journey> journeys)
+        public static Route Elitist(List<Route> routes)
         {
             Random random = Utils.Random;
 
-            List<Journey> bestJourneys = journeys.OrderBy(j => j.Fitness)
-                                                 .Take((int)(journeys.Count * ELITIST_OFFSET))
+            List<Route> bestRoutes = routes.OrderBy(j => j.Fitness)
+                                                 .Take((int)(routes.Count * ELITIST_OFFSET))
                                                  .ToList();
 
-            return bestJourneys[random.Next(bestJourneys.Count)];
+            return bestRoutes[random.Next(bestRoutes.Count)];
         }
     }
 }
