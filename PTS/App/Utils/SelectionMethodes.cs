@@ -61,7 +61,7 @@ namespace PTS.App.Utils
             return bestRoutes[random.Next(bestRoutes.Count)];
         }
 
-        private static  List<int> Stochastique(List<Journey> journeys,int nbReproduction)
+        private static  List<int> Stochastique(List<Route> routes,int nbReproduction)
         {
             double fitnessTotal = 0;
             List<double> pourcentageCumuler = new List<double>();
@@ -69,15 +69,15 @@ namespace PTS.App.Utils
             Random random = Utils.Random;
            
             //allows to have the total of the fitness
-            for (int i=0; i<journeys.Count; i++)
+            for (int i=0; i<routes.Count; i++)
             {
-                fitnessTotal = fitnessTotal + journeys[i].Fitness;
+                fitnessTotal = fitnessTotal + routes[i].Fitness;
             }
             //on calcule le pourcentage cumulé de chaque fitness pr avoir la répartition de chaque fitness
-            pourcentageCumuler.Add(journeys[0].Fitness / fitnessTotal);
-            for (int i = 1; i < journeys.Count; i++)
+            pourcentageCumuler.Add(routes[0].Fitness / fitnessTotal);
+            for (int i = 1; i < routes.Count; i++)
             {
-                pourcentageCumuler.Add(( journeys[0].Fitness / fitnessTotal) + pourcentageCumuler[i - 1]);              
+                pourcentageCumuler.Add(( routes[0].Fitness / fitnessTotal) + pourcentageCumuler[i - 1]);              
             }
 
             int parentIndex;
@@ -105,7 +105,7 @@ namespace PTS.App.Utils
         }
 
         //Method "BEFORE"
-        public static Journey PreSelect(List<City> cities)
+        public static Route PreSelect(List<City> cities)
         {
             List<double> totalDistances = new List<double>(cities.Count);
             List<City> parentJourney = new List<City>(cities.Count);
@@ -132,26 +132,26 @@ namespace PTS.App.Utils
             List<double> delta = new List<double>(adjacentCities.Count);
             for (int i = 0; i < adjacentCities.Count; i++)
             {
-                City nextCity = Journey.CompareCities(startCity, lastCity, adjacentCities);
+                City nextCity = Route.CompareCities(startCity, lastCity, adjacentCities);
                 parentJourney.Add(nextCity);
                 adjacentCities.Remove(nextCity);
                 lastCity = nextCity;
             }
 
-            return new Journey(parentJourney);
+            return new Route(parentJourney);
 
         }
-        public static int SelectBefore(List<Journey> journeys, )
+        public static int SelectBefore(List<Route> routes)
         {
             Random random = Utils.Random;
 
             //The 15% journeys 
-            int pivot = (int)(0.15 * journeys.Count);
-            List<Journey> bestJourneys = journeys.Take(pivot).ToList();
-            List<Journey> badJourneys = journeys.Skip(pivot).ToList();
+            int pivot = (int)(0.15 * routes.Count);
+            List<Route> bestJourneys = routes.Take(pivot).ToList();
+            List<Route> badJourneys = routes.Skip(pivot).ToList();
 
            // List<int> indexMates = Stochastique(badJourneys, pivot);
-           // List<Journey> mates =
+           // List<Route> mates =
            if (SelectionMethodes.indexMates==null || SelectionMethodes.indexMates.Count==0)
                 indexMates = Stochastique(badJourneys, pivot);
                 Random randomIndex = Utils.Random;

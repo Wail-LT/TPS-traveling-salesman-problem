@@ -9,10 +9,12 @@ namespace PTS.App.Objects
     public class Route : IComparable<Route>
     {
         //Initilized only in constructor so use readonly is a better practice 
-        public readonly List<City> cities;
+        private readonly List<City> cities;
         private double fitness;
         
         public double Fitness => fitness;
+
+        public List<City> Cities => cities;
 
         public Route(List<City> cities)
         {
@@ -22,7 +24,7 @@ namespace PTS.App.Objects
 
         public Route(Route route)
         {
-            this.Cities = new List<City>(route.Cities);
+            this.cities = new List<City>(route.cities);
             this.fitness = route.fitness;
         }
 
