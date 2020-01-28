@@ -141,7 +141,7 @@ namespace PTS.App.Objects
 
         public static double Delta(List<double> val1, List<double> val2)
         {
-            return val1[0] - val2[0] + val1[1] - val2[1] + val1[3] - val2[2];
+            return val1[0] - val2[0] + val1[1] - val2[1] + val1[2] - val2[2];
         }
         
         public static City CompareCities(City refCity, City lastCity, List<City> others)
