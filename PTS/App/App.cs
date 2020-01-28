@@ -37,7 +37,7 @@ namespace PTS.App
                 Console.WriteLine("Error: " + e.Message);
             }
 
-            if (DataBaseManager.connection != null)
+            if (DataBaseManager.Connection != null)
             {
 
                 Dictionary<string, string> cities = new Dictionary<string, string>();
@@ -56,9 +56,9 @@ namespace PTS.App
 
                 Console.WriteLine("TOURNOI");
                 //init the app with database connection
-                App app = new App(DataBaseManager.connection, cities);
+                App app = new App(DataBaseManager.Connection, cities);
 
-                Journey bestCity = app.population.BestJourney;
+                Route bestCity = app.population.BestRoute;
                 int bestGen = 0;
 
                 //Print the first population
@@ -73,13 +73,12 @@ namespace PTS.App
                         Console.WriteLine("GEN {0}", i);
                         Console.WriteLine(app.population.ToString());
 
-                        bestCity = app.population.BestJourney;
+                        bestCity = app.population.BestRoute;
                         bestGen = i;
                     }
-
-
+                    
                     //Generate the new one; Journey : Montpellier, Grenoble, Mulhouse, Valenciennes, Paris, Nantes,  Fitness : 1470216.5560350444
-                    app.NextGen(Utils.SelectionMethodes.Elitist);
+                    app.NextGen(Utils.SelectionMethodes.Tournament);
                 }
 
                 if (bestCity.Fitness > app.population.BestFitness)
@@ -88,11 +87,11 @@ namespace PTS.App
                     Console.WriteLine("GEN 100");
                     Console.WriteLine(app.population.ToString());
 
-                    bestCity = app.population.BestJourney;
+                    bestCity = app.population.BestRoute;
                     bestGen = 100;
                 }
 
-                Console.WriteLine("Best Journey Found : \n " +
+                Console.WriteLine("Best Route Found : \n " +
                     "{0}\n" +
                     "Generation : {1}",
                     bestCity,
@@ -101,9 +100,9 @@ namespace PTS.App
 
                 Console.WriteLine("ELITISTE");
                 //init the app with database connection
-                app = new App(DataBaseManager.connection, cities);
+                app = new App(DataBaseManager.Connection, cities);
 
-                bestCity = app.population.BestJourney;
+                bestCity = app.population.BestRoute;
                 bestGen = 0;
 
 
@@ -119,12 +118,12 @@ namespace PTS.App
                         Console.WriteLine("GEN {0}", i);
                         Console.WriteLine(app.population.ToString());
 
-                        bestCity = app.population.BestJourney;
+                        bestCity = app.population.BestRoute;
                         bestGen = i;
                     }
 
 
-                    //Generate the new one; Journey : Montpellier, Grenoble, Mulhouse, Valenciennes, Paris, Nantes,  Fitness : 1470216.5560350444
+                    //Generate the new one; Route : Montpellier, Grenoble, Mulhouse, Valenciennes, Paris, Nantes,  Fitness : 1470216.5560350444
                     app.NextGen(Utils.SelectionMethodes.Elitist);
                 }
 
@@ -134,11 +133,11 @@ namespace PTS.App
                     Console.WriteLine("GEN 100");
                     Console.WriteLine(app.population.ToString());
 
-                    bestCity = app.population.BestJourney;
+                    bestCity = app.population.BestRoute;
                     bestGen = 100;
                 }
 
-                Console.WriteLine("Best Journey Found : \n " +
+                Console.WriteLine("Best Route Found : \n " +
                     "{0}\n" +
                     "Generation : {1}",
                     bestCity,
@@ -147,10 +146,10 @@ namespace PTS.App
             }
         }
 
-        private void NextGen(Func<List<Journey>, Journey> selectionMethode)
+        private void NextGen(Func<List<Route>, Route> selectionMethode)
         {
             //Generate the next generation
-            Population nextPopulation = populationManager.NextGen(population, selectionMethode);
+            Population nextPopulation = populationManager.NextGen(population, selectionMethode, 0.1);
 
             //store it in the population variable
             population = nextPopulation;

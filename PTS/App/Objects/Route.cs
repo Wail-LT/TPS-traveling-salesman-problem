@@ -6,33 +6,35 @@ using System.Threading.Tasks;
 
 namespace PTS.App.Objects
 {
-    public class Journey : IComparable<Journey>
+    public class Route : IComparable<Route>
     {
         //Initilized only in constructor so use readonly is a better practice 
-        public readonly List<City> cities;
+        private readonly List<City> cities;
         private double fitness;
         
         public double Fitness => fitness;
 
-        public Journey(List<City> cities)
+        public List<City> Cities => cities;
+
+        public Route(List<City> cities)
         {
             this.cities = new List<City>(cities);
             ComputeFitness();
         }
 
-        public Journey(Journey journey)
+        public Route(Route route)
         {
-            this.cities = new List<City>(journey.cities);
-            this.fitness = journey.fitness;
+            this.cities = new List<City>(route.cities);
+            this.fitness = route.fitness;
         }
 
         /*
-         * Compare 2 journeys using their fitness
+         * Compare 2 routes using their fitness
          * returns : 0 if equals;
          *           -1 if this is better;
          *           1 if other is better;
          */
-        public int CompareTo([AllowNull] Journey other)
+        public int CompareTo([AllowNull] Route other)
         {
             if (other == null || this.Fitness < other.Fitness)
                 return -1;
@@ -43,7 +45,7 @@ namespace PTS.App.Objects
             return 0;
         }
 
-        public Journey CrossoverWith(Journey other)
+        public Route CrossoverWith( Route other)
         {
             List<City> cities1 = this.cities;
             List<City> cities2 = other.cities;
@@ -86,7 +88,7 @@ namespace PTS.App.Objects
                 }
             }
 
-            return new Journey(child);
+            return new Route(child);
         }
 
         //fonction mutate qui donne la chance à chaque ville du trajet de s'échanger avec une autre ville
@@ -116,8 +118,8 @@ namespace PTS.App.Objects
         /*Override*/
         public override string ToString()
         {
-            string str = "Journey : ";
-            foreach (City c in cities)
+            string str = "Route : ";
+            foreach (City c in Cities)
                 str += c.ToString() + ", ";
             str += " Fitness : " + Math.Round(this.fitness / 1000, 2) + "  " + fitness + " km\n";
 

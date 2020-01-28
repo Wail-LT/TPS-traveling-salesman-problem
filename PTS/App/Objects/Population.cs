@@ -7,26 +7,26 @@ namespace PTS.App.Objects
 {
     public class Population
     {
-        private List<Journey> journeys;
+        private List<Route> route;
 
         /*Properties*/
-        public Journey BestJourney => this.journeys.First();
-        public double BestFitness => this.journeys.First().Fitness;
-        public List<Journey> Journeys => journeys;
+        public Route BestRoute => this.route.First();
+        public double BestFitness => this.route.First().Fitness;
+        public List<Route> Routes => route;
 
-        public Population(List<Journey> journeys)
+        public Population(List<Route> routes)
         {
-            //Copy the list of journeys
-            this.journeys = new List<Journey>(journeys);
+            //Copy the list of routes
+            this.route = new List<Route>(routes);
 
             //Sort the list
-            this.journeys.Sort();
+            this.route.Sort();
         }
 
         public override string ToString()
         {
             string str =  "Population : \n";
-            foreach (Journey j in journeys)
+            foreach (Route j in route)
                 str += j.ToString();
 
             return str;

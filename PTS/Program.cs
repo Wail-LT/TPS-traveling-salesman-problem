@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using PTS.App;
+using PTS.App.DataBase;
 
 namespace PTS
 {
@@ -14,7 +15,17 @@ namespace PTS
     {
         public static void Main(string[] args)
         {
-            //CreateWebHostBuilder(args).Build().Run();
+            //Setup the database connection
+            /*try
+            {
+                DataBaseManager.SetupConnection();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error: " + e.Message);
+            }
+
+            CreateWebHostBuilder(args).Build().Run();*/
             App.App.Start(20);
         }
 

@@ -9,17 +9,19 @@ namespace PTS.App.Utils
     public static class SelectionMethodes
     {
         private static double ELITIST_OFFSET = 0.15;
-        public static Journey Tournament(List<Journey> journeys)
+        private static List<int> indexMates = new List<int>();
+
+        public static Route Tournament(List<Route> routes)
         {
             List<int> Participant = new List<int>();
 
-            //Create Tournament between 15% of the journeys
-            int size = (int)(journeys.Count * 0.15);
+            //Create Tournament between 15% of the routes
+            int size = (int)(routes.Count * 0.15);
 
             Random random = Utils.Random;
 
             //First participant
-            int index = random.Next(0, journeys.Count);
+            int index = random.Next(0, routes.Count);
             //Add it to the list of participant
             Participant.Add(index);
 
@@ -31,7 +33,7 @@ namespace PTS.App.Utils
                 do
                 {
                     //New random participant
-                    rIndex = random.Next(0, journeys.Count);
+                    rIndex = random.Next(0, routes.Count);
                 } while (Participant.Contains(rIndex));
 
                 //Add it to the list of participant
@@ -39,27 +41,27 @@ namespace PTS.App.Utils
 
                 //If fitess of the new participant is better than the current best one
                 //then save it as better participant
-                if (journeys[index].Fitness > journeys[rIndex].Fitness)
+                if (routes[index].Fitness > routes[rIndex].Fitness)
                 {
                     index = rIndex;
                 }
             }
 
-            return journeys[index];
+            return routes[index];
         }
 
-        public static Journey Elitist(List<Journey> journeys)
+        public static Route Elitist(List<Route> routes)
         {
             Random random = Utils.Random;
 
-            List<Journey> bestJourneys = journeys.OrderBy(j => j.Fitness)
-                                                 .Take((int)(journeys.Count * ELITIST_OFFSET))
+            List<Route> bestRoutes = routes.OrderBy(j => j.Fitness)
+                                                 .Take((int)(routes.Count * ELITIST_OFFSET))
                                                  .ToList();
 
-            return bestJourneys[random.Next(bestJourneys.Count)];
+            return bestRoutes[random.Next(bestRoutes.Count)];
         }
 
-        private static List<int> Stochastique(List<Journey> journeys,int nbReproduction)
+        private static  List<int> Stochastique(List<Route> routes,int nbReproduction)
         {
             double fitnessTotal = 0;
             List<double> pourcentageCumuler = new List<double>();
@@ -67,15 +69,15 @@ namespace PTS.App.Utils
             Random random = Utils.Random;
            
             //allows to have the total of the fitness
-            for (int i=0; i<journeys.Count; i++)
+            for (int i=0; i<routes.Count; i++)
             {
-                fitnessTotal = fitnessTotal + journeys[i].Fitness;
+                fitnessTotal = fitnessTotal + routes[i].Fitness;
             }
             //on calcule le pourcentage cumulé de chaque fitness pr avoir la répartition de chaque fitness
-            pourcentageCumuler.Add(journeys[0].Fitness / fitnessTotal);
-            for (int i = 1; i < journeys.Count; i++)
+            pourcentageCumuler.Add(routes[0].Fitness / fitnessTotal);
+            for (int i = 1; i < routes.Count; i++)
             {
-                pourcentageCumuler.Add(( journeys[0].Fitness / fitnessTotal) + pourcentageCumuler[i - 1]);              
+                pourcentageCumuler.Add(( routes[0].Fitness / fitnessTotal) + pourcentageCumuler[i - 1]);              
             }
 
             int parentIndex;

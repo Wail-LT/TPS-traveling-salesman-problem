@@ -7,12 +7,12 @@ using PTS.App.Utils;
 
 namespace PTS.App.Managers
 {
-    public class JourneyManager
+    public class RouteManager
     {
         private List<City> cities;
         private CityManager cityManager;
 
-        public JourneyManager(MySql.Data.MySqlClient.MySqlConnection dbConn, Dictionary<string, string> cities)
+        public RouteManager(MySql.Data.MySqlClient.MySqlConnection dbConn, Dictionary<string, string> cities)
         {
             //Init the cityManager
             cityManager = new CityManager(dbConn);
@@ -24,12 +24,12 @@ namespace PTS.App.Managers
 
         }
 
-        public Journey NextJourney()
+        public Route NextRoute()
         {
             //Randomize the cities
             cities.Shuffle(1);
 
-            return new Journey(new List<City>(cities));
+            return new Route(new List<City>(cities));
         }
     }
 }

@@ -6,7 +6,7 @@ namespace PTS.App.DataBase
 {
     public static class DataBaseManager
     {
-        public static MySqlConnection connection;
+        private static MySqlConnection connection;
 
         private static string host = "localhost";
         private static string database = "pts";
@@ -14,15 +14,17 @@ namespace PTS.App.DataBase
         private static string password = "y6NOAw5S3FhLHsWe";
         private static int port = 3306;
 
+        public static MySqlConnection Connection => connection;
+
 
         /*Setup the database connection*/
         public static void SetupConnection()
         {
             //Close the current database connection
-            if (connection != null)
+            if (Connection != null)
             {
-                connection.Close();
-                connection.Dispose();
+                Connection.Close();
+                Connection.Dispose();
             }
                 
             //Create new connection to the database

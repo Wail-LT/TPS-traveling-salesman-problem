@@ -9,56 +9,56 @@ namespace PTS.App.Managers
     public class PopulationManager
     {
         private MySqlConnection dbConn;
-        private JourneyManager journeyManager;
+        private RouteManager routeManager;
 
-        public readonly int NUMBER_JOURNEY;
-        public const int MAX_NUMBER_JOURNEY = 300;
+        public readonly int NUMBER_ROUTE;
+        public const int MAX_NUMBER_ROUTE = 300;
 
         public PopulationManager(MySqlConnection dbConn, Dictionary<string, string> cities)
         {
             this.dbConn = dbConn;
-            this.journeyManager = new JourneyManager(dbConn, cities);
+            this.routeManager = new RouteManager(dbConn, cities);
 
-            //The number of journey = 15% of all possibilities
-            NUMBER_JOURNEY = (int)(Utils.Utils.Factor(cities.Count - 1) * 0.15);
-            //If number of journey > 100 set it to 100
-            NUMBER_JOURNEY = NUMBER_JOURNEY > MAX_NUMBER_JOURNEY ? MAX_NUMBER_JOURNEY : NUMBER_JOURNEY;
+            //The number of route = 15% of all possibilities
+            NUMBER_ROUTE = (int)(Utils.Utils.Factor(cities.Count - 1) * 0.15);
+            //If number of route > 100 set it to 100
+            NUMBER_ROUTE = NUMBER_ROUTE > MAX_NUMBER_ROUTE ? MAX_NUMBER_ROUTE : NUMBER_ROUTE;
         }
 
         public Population GeneratePopulation()
         {
-            //New list of journey
-            List<Journey> journeys = new List<Journey>();
+            //New list of route
+            List<Route> routes = new List<Route>();
 
-            Journey tempJourney;
+            Route tempRoute;
 
-            //Create journeys to create the population
-            for (int i = 0; i < NUMBER_JOURNEY; i++)
+            //Create routes to create the population
+            for (int i = 0; i < NUMBER_ROUTE; i++)
             {
-                tempJourney = journeyManager.NextJourney();
+                tempRoute = routeManager.NextRoute();
 
-                //If the journey already exists in the list generate another one
-                while (journeys.Exists(j => j != null && j.cities.SequenceEqual(tempJourney.cities)))
+                //If the route already exists in the list generate another one
+                while (routes.Exists(j => j != null && j.Cities.SequenceEqual(tempRoute.Cities)))
                 {
-                    tempJourney = journeyManager.NextJourney();
+                    tempRoute = routeManager.NextRoute();
                 }
 
                 //Else add it to the list
-                journeys.Add(new Journey(tempJourney));
+                routes.Add(new Route(tempRoute));
             }
 
             //Create the population
-            Population population = new Population(journeys);
+            Population population = new Population(routes);
 
             return population;
             //throw new NotImplementedException();
         }
 
         //Method "BEFORE"
-        public static Journey PreSelect(List<City> cities)
+        public static Route PreSelect(List<City> cities)
         {
             List<double> totalDistances = new List<double>(cities.Count);
-            List<City> parentJourney = new List<City>(cities.Count);
+            List<City> parentRoute = new List<City>(cities.Count);
             List<City> adjacentCities = new List<City>(cities);
 
             //Calculate total sum of distances from each city to the others
@@ -76,55 +76,55 @@ namespace PTS.App.Managers
             double minDist = totalDistances.Min();
             City startCity = adjacentCities[totalDistances.IndexOf(minDist)];
             City lastCity = startCity;
-            parentJourney.Add(startCity);
+            parentRoute.Add(startCity);
             adjacentCities.Remove(startCity);
 
             List<double> delta = new List<double>(adjacentCities.Count);
             for (int i = 0; i < adjacentCities.Count; i++)
             {
-                City nextCity = Journey.CompareCities(startCity, lastCity, adjacentCities);
-                parentJourney.Add(nextCity);
+                City nextCity = Route.CompareCities(startCity, lastCity, adjacentCities);
+                parentRoute.Add(nextCity);
                 adjacentCities.Remove(nextCity);
                 lastCity = nextCity;
             }
-            parentJourney.Add(adjacentCities[0]);
+            parentRoute.Add(adjacentCities[0]);
 
             //Console.WriteLine(string.Join(",", adjacentCities));
 
-            return new Journey(parentJourney);
+            return new Route(parentRoute);
 
         }
 
-        public Population NextGen(Population population, Func<List<Journey>, Journey> selectionMethode, double mutateFactor)
+        public Population NextGen(Population population, Func<List<Route>, Route> selectionMethode, double mutateFactor)
         {   
-            //New list of journey
-            List<Journey> journeys = new List<Journey>();
+            //New list of route
+            List<Route> routes = new List<Route>();
 
-            Journey parent1,
-                    parent2,
-                    child;
+            Route parent1,
+                  parent2,
+                  child;
 
-            for (int i = 0; i < NUMBER_JOURNEY; i++)
+            for (int i = 0; i < NUMBER_ROUTE; i++)
             {
                 do
                 {
                     //First step : get two parents  
-                    parent1 = selectionMethode(population.Journeys);
-                    parent2 = selectionMethode(population.Journeys);
+                    parent1 = selectionMethode(population.Routes);
+                    parent2 = selectionMethode(population.Routes);
 
                     //Second step : crossing method
                     child = parent1.CrossoverWith(parent2);
-
-                } while (journeys.Exists(j => j != null && j.cities.SequenceEqual(child.cities)));
+                    
+                } while (routes.Exists(j => j != null && j.Cities.SequenceEqual(child.Cities)));
 
                 if (Utils.Utils.Random.NextDouble() < mutateFactor)
                     child.Mutate();
 
                 //Third step : Add the child to the list
-                journeys.Add(new Journey(child));
+                routes.Add(new Route(child));
             }
 
-            return new Population(journeys);           
+            return new Population(routes);           
         }
         
     }
