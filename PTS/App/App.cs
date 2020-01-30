@@ -42,30 +42,36 @@ namespace PTS.App
 
                 Dictionary<string, string> cities = new Dictionary<string, string>();
 
-                cities.Add("34000", "Montpellier");
-                cities.Add("38100", "Grenoble");
+                cities.Add("69001", "Lyon");
+                cities.Add("59000", "Lille");
                 cities.Add("75001", "Paris");
                 cities.Add("44100", "Nantes");
-                cities.Add("68100", "Mulhouse");
+                cities.Add("13001", "Marseille");
+                /*cities.Add("68100", "Mulhouse");
                 cities.Add("59300", "Valenciennes");
                 cities.Add("06100", "Nice");
                 cities.Add("14100", "Lisieux");
                 cities.Add("57000", "Metz");
                 cities.Add("33310", "Lormont");
-                cities.Add("31000", "Toulouse");
+                cities.Add("31000", "Toulouse");*/
 
-                Console.WriteLine("TOURNOI");
+                Console.WriteLine("¨BEFORE");
                 //init the app with database connection
                 App app = new App(DataBaseManager.Connection, cities);
 
-                Route bestCity = app.population.BestRoute;
-                int bestGen = 0;
+                CityManager cm = new CityManager(DataBaseManager.Connection);
+                List<City> cities2 = cm.GetCities(cities);
+                
+                //Route bestCity = app.population.BestRoute;
+                //int bestGen = 0;
+                Route bestRoute = Utils.SelectionMethodes.PreSelect(cities2);
+                Console.WriteLine(bestRoute);
 
                 //Print the first population
-                Console.WriteLine("GEN {0}", 1);
-                Console.WriteLine(app.population.ToString());
+                //Console.WriteLine("GEN {0}", 1);
+                //Console.WriteLine(app.population.ToString());
 
-                for (int i = 0; i < 99; i++)
+                /*for (int i = 0; i < 99; i++)
                 {
                     if (bestCity.Fitness > app.population.BestFitness)
                     {
@@ -142,7 +148,7 @@ namespace PTS.App
                     "Generation : {1}",
                     bestCity,
                     bestGen);
-                DataBaseManager.CloseConnection();
+                DataBaseManager.CloseConnection();*/
             }
         }
 

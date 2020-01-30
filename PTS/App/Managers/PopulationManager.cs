@@ -55,7 +55,7 @@ namespace PTS.App.Managers
         }
 
         //Method "BEFORE"
-        public static Route PreSelect(List<City> cities)
+        /*public static Route PreSelect(List<City> cities)
         {
             List<double> totalDistances = new List<double>(cities.Count);
             List<City> parentRoute = new List<City>(cities.Count);
@@ -93,7 +93,7 @@ namespace PTS.App.Managers
 
             return new Route(parentRoute);
 
-        }
+        }*/
 
         public Population NextGen(Population population, Func<List<Route>, Route> selectionMethode, double mutateFactor)
         {   

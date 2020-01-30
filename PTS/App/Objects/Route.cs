@@ -157,7 +157,7 @@ namespace PTS.App.Objects
                 for (int i = 0; i < others.Count; i++)
                 {
                     double distToRef = others[i].GetDistanceTo(refCity);
-                    double nearest = 0;
+                    double nearest = -1;
                     double furthest = 0;
 
 
@@ -166,7 +166,7 @@ namespace PTS.App.Objects
                         if (i != j)
                         {
                             double distToNeighbor = others[i].GetDistanceTo(others[j]);
-                            if (distToNeighbor < nearest)
+                            if (distToNeighbor < nearest || nearest == -1)
                                 nearest = distToNeighbor;
                             else if (distToNeighbor > furthest)
                                 furthest = distToNeighbor;
@@ -197,11 +197,31 @@ namespace PTS.App.Objects
             else if (others.Count == 2)
             {
                 //For the last 2 cities
-                double delta = others[0].GetDistanceTo(refCity) - others[1].GetDistanceTo(refCity) +
+                double deltaToRef = others[0].GetDistanceTo(lastCity) - others[1].GetDistanceTo(lastCity);
+                double deltaToLast = others[0].GetDistanceTo(refCity) - others[1].GetDistanceTo(refCity);
+
+                double delta = Math.Abs(deltaToRef) - Math.Abs(deltaToLast);
+
+                if (delta < 0)
+                {
+                    if (deltaToLast < 0)
+                        bestCity = others[1];
+                    else
+                        bestCity = others[0];
+                }
+                else
+                {
+                    if (deltaToRef < 0)
+                        bestCity = others[0];
+                    else
+                        bestCity = others[1];
+                }
+
+                /*double delta = others[0].GetDistanceTo(refCity) - others[1].GetDistanceTo(refCity) +
                     others[0].GetDistanceTo(lastCity) - others[1].GetDistanceTo(lastCity);
                 if (delta > 0)  //this time we take the biggest value
                     bestCity = others[0];
-                else bestCity = others[1];
+                else bestCity = others[1];*/
             }
             else bestCity = others[0];
             
