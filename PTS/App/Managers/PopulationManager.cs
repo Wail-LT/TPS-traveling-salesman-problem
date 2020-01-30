@@ -8,15 +8,13 @@ namespace PTS.App.Managers
 {
     public class PopulationManager
     {
-        private MySqlConnection dbConn;
-        private RouteManager routeManager;
+        private readonly RouteManager routeManager;
 
         public readonly int NUMBER_ROUTE;
         public const int MAX_NUMBER_ROUTE = 300;
 
         public PopulationManager(MySqlConnection dbConn, Dictionary<string, string> cities)
         {
-            this.dbConn = dbConn;
             this.routeManager = new RouteManager(dbConn, cities);
 
             //The number of route = 15% of all possibilities
@@ -25,8 +23,11 @@ namespace PTS.App.Managers
             NUMBER_ROUTE = NUMBER_ROUTE > MAX_NUMBER_ROUTE ? MAX_NUMBER_ROUTE : NUMBER_ROUTE;
         }
 
-        public Population GeneratePopulation()
+        public Population GeneratePopulation(Func<List<City>, Population> iniFunc = null)
         {
+            if (iniFunc != null)
+                return iniFunc(routeManager.cities);
+
             //New list of route
             List<Route> routes = new List<Route>();
 
@@ -52,47 +53,6 @@ namespace PTS.App.Managers
 
             return population;
             //throw new NotImplementedException();
-        }
-
-        //Method "BEFORE"
-        public static Route PreSelect(List<City> cities)
-        {
-            List<double> totalDistances = new List<double>(cities.Count);
-            List<City> parentRoute = new List<City>(cities.Count);
-            List<City> adjacentCities = new List<City>(cities);
-
-            //Calculate total sum of distances from each city to the others
-            for (int i = 0; i < adjacentCities.Count; i++)
-            {
-                double dist = 0;
-                for (int j = 0; j < adjacentCities.Count; j++)
-                {
-                    if (i != j)
-                        dist += adjacentCities[i].GetDistanceTo(adjacentCities[j]);
-                }
-                totalDistances.Add(dist);
-            }
-
-            double minDist = totalDistances.Min();
-            City startCity = adjacentCities[totalDistances.IndexOf(minDist)];
-            City lastCity = startCity;
-            parentRoute.Add(startCity);
-            adjacentCities.Remove(startCity);
-
-            List<double> delta = new List<double>(adjacentCities.Count);
-            for (int i = 0; i < adjacentCities.Count; i++)
-            {
-                City nextCity = Route.CompareCities(startCity, lastCity, adjacentCities);
-                parentRoute.Add(nextCity);
-                adjacentCities.Remove(nextCity);
-                lastCity = nextCity;
-            }
-            parentRoute.Add(adjacentCities[0]);
-
-            //Console.WriteLine(string.Join(",", adjacentCities));
-
-            return new Route(parentRoute);
-
         }
 
         public Population NextGen(Population population, Func<List<Route>, Route> selectionMethode, double mutateFactor)
@@ -126,6 +86,5 @@ namespace PTS.App.Managers
 
             return new Population(routes);           
         }
-        
     }
 }

@@ -9,7 +9,7 @@ namespace PTS.App.Managers
 {
     public class CityManager
     {
-        private MySqlConnection dbConn;
+        private readonly MySqlConnection dbConn;
 
         public CityManager(MySqlConnection dbConn)
         {

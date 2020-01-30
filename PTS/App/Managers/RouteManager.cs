@@ -9,8 +9,8 @@ namespace PTS.App.Managers
 {
     public class RouteManager
     {
-        private List<City> cities;
-        private CityManager cityManager;
+        public readonly List<City> cities;
+        private readonly CityManager cityManager;
 
         public RouteManager(MySql.Data.MySqlClient.MySqlConnection dbConn, Dictionary<string, string> cities)
         {
@@ -23,6 +23,8 @@ namespace PTS.App.Managers
             this.cities = new List<City>(citiesTemp);
 
         }
+
+
 
         public Route NextRoute()
         {
