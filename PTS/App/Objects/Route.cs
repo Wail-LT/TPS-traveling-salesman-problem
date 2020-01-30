@@ -127,7 +127,6 @@ namespace PTS.App.Objects
         }
 
 
-
         /*Private*/
         private void ComputeFitness()
         {
@@ -140,6 +139,5 @@ namespace PTS.App.Objects
 
             //this.fitness = Math.Round(this.fitness / 1000, 2);
         }
-
     }
 }

@@ -9,7 +9,7 @@ namespace PTS.App.Objects
 
     public class City
     {
-        private string name;
+        public string name;
         private GeoCoordinate coordinates;  //latitude and longitude
 
         /*Properties*/
