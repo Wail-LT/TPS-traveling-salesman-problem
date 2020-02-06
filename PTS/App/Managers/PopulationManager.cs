@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using MySql.Data.MySqlClient;
+using PTS.App.Utils;
 using PTS.App.Objects;
 
 namespace PTS.App.Managers
@@ -23,10 +24,10 @@ namespace PTS.App.Managers
             NUMBER_ROUTE = NUMBER_ROUTE > MAX_NUMBER_ROUTE ? MAX_NUMBER_ROUTE : NUMBER_ROUTE;
         }
 
-        public Population GeneratePopulation(Func<List<City>, Population> iniFunc = null)
+        public Population GeneratePopulation(Func<List<City>, int, Population> iniFunc = null)
         {
             if (iniFunc != null)
-                return iniFunc(routeManager.cities);
+                return iniFunc(routeManager.cities, NUMBER_ROUTE);
 
             //New list of route
             List<Route> routes = new List<Route>();
@@ -75,10 +76,10 @@ namespace PTS.App.Managers
                     //Second step : crossing method
                     child = parent1.CrossoverWith(parent2);
                     
-                } while (routes.Exists(j => j != null && j.Cities.SequenceEqual(child.Cities)));
+                } while (routes.Exists(route => route != null && route.Cities.SequenceEqual(child.Cities)));
 
                 if (Utils.Utils.Random.NextDouble() < mutateFactor)
-                    child.Mutate();
+                    child.Mutate(mutateFactor);
 
                 //Third step : Add the child to the list
                 routes.Add(new Route(child));

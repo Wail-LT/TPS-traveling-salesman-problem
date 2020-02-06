@@ -9,6 +9,42 @@ namespace PTS.App.Utils
     {
         /*Public Static Functions*/
 
+
+        public static Population AdamAndEve(List<City> cities, int populationSize)
+        {
+            Route adam = PreSelect(cities);
+            Route eve = new Route(adam);
+            eve.Mutate(0.70);
+
+            List<Route> routes = new List<Route>();
+            routes.Add(adam);
+            routes.Add(eve);
+
+            int indexParent1,
+                indexParent2;
+
+            Route child;
+            while (routes.Count < populationSize)
+            {
+                do
+                {
+                    indexParent1 = Utils.Random.Next(routes.Count);
+                    do
+                    {
+                        indexParent2 = Utils.Random.Next(routes.Count);
+                    } while (indexParent1 == indexParent2);
+
+
+                    child = routes[indexParent1].CrossoverWith(routes[indexParent2]);
+                    child.Mutate(0.30);
+                } while (routes.Exists(route => route != null && route.Cities.SequenceEqual(child.Cities)));
+
+                routes.Add(child);
+            }
+
+            return new Population(routes);
+        }
+
         //Method "BEFORE"
         public static Route PreSelect(List<City> cities)
         {
@@ -35,14 +71,14 @@ namespace PTS.App.Utils
             adjacentCities.Remove(currentCity);
 
             List<double> delta = new List<double>(adjacentCities.Count);
-            for (int i = 0; i < adjacentCities.Count; i++)
+            int numberCities = adjacentCities.Count;
+            for (int i = 0; i < numberCities; i++)
             {
                 City nextCity = CompareCities(currentCity, lastCity, adjacentCities);
                 parentRoute.Add(nextCity);
                 adjacentCities.Remove(nextCity);
                 currentCity = nextCity;
             }
-            parentRoute.Add(adjacentCities[0]);
 
             //Console.WriteLine(string.Join(",", adjacentCities));
 
@@ -127,14 +163,6 @@ namespace PTS.App.Utils
                     else
                         bestCity = others[1];
                 }
-                /*
-                double delta = Math.Abs(deltaToRef)-
-
-                double delta = others[0].GetDistanceTo(lastCity) - others[1].GetDistanceTo(lastCity) +
-                    others[0].GetDistanceTo(refCity) - others[1].GetDistanceTo(refCity);
-                if (delta > 0)  //this time we take the biggest value
-                    bestCity = others[0];
-                else bestCity = others[1];*/
             }
             else bestCity = others[0];
 

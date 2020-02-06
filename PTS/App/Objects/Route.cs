@@ -68,7 +68,7 @@ namespace PTS.App.Objects
             }
 
             List<City> child = new List<City>(cities1);
-
+            //UPDATE use a while instead i = pivot1 i<pivot 2
             for (int i = 0; i < cities1.Count; i++)
             {
                 if (i >= pivot1 && i <= pivot2)
@@ -92,12 +92,11 @@ namespace PTS.App.Objects
         }
 
         //fonction mutate qui donne la chance à chaque ville du trajet de s'échanger avec une autre ville
-        public void Mutate()
+        public void Mutate(double mutateFactor)
         {
             Random random = Utils.Utils.Random;
 
             int n = cities.Count;
-            double mutateFactor = 1 / 3;
 
             while (n > 1)
             {
@@ -109,8 +108,8 @@ namespace PTS.App.Objects
                     cities[k] = cities[n];
                     cities[n] = tempCity;
                 }
-
             }
+            ComputeFitness();
         }
 
 

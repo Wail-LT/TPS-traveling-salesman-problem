@@ -61,6 +61,26 @@ namespace PTS.App.Utils
             return bestRoutes[random.Next(bestRoutes.Count)];
         }
 
+
+
+        public static int SelectBefore(List<Route> Routes)
+        {
+            Random random = Utils.Random;
+
+            //The 15% Routes
+            int pivot = (int)(0.15 * Routes.Count);
+            List<Route> bestRoutes = Routes.Take(pivot).ToList();
+            List<Route> badRoutes = Routes.Skip(pivot).ToList();
+
+            // List<int> indexMates = Stochastique(badRoutes, pivot);
+            // List<Route> mates =
+            if (SelectionMethodes.indexMates == null || SelectionMethodes.indexMates.Count == 0)
+                indexMates = Stochastique(badRoutes, pivot);
+            Random randomIndex = Utils.Random;
+            int indexSorti = randomIndex.Next(0, indexMates.Count);
+            return indexMates[indexSorti]; //A REVOIR car rertourne index faurdrai retourner un trajet merci a bientot
+        }
+
         private static  List<int> Stochastique(List<Route> routes,int nbReproduction)
         {
             double fitnessTotal = 0;
@@ -101,51 +121,6 @@ namespace PTS.App.Utils
                 indexReproduction.Add(parentIndex);
             }
             return indexReproduction;
-
-        }
-
-        //Method "BEFORE"
-        public static Route PreSelect(List<City> cities)
-        {
-            //Console.WriteLine(string.Join(", ", cities));
-            List<double> totalDistances = new List<double>(cities.Count);
-            List<City> parentRoute = new List<City>(cities.Count);
-            List<City> adjacentCities = new List<City>(cities);
-
-            //Calculate total sum of distances from each city to the others
-            for (int i = 0; i < adjacentCities.Count; i++)
-            {
-                double dist = 0;
-                for (int j = 0; j < adjacentCities.Count; j++)
-                {
-                    if (i != j)
-                        dist += adjacentCities[i].GetDistanceTo(adjacentCities[j]);
-                }
-                totalDistances.Add(dist);
-            }
-
-            double minDist = totalDistances.Min();
-            City startCity = adjacentCities[totalDistances.IndexOf(minDist)];
-            City lastCity = startCity;
-            parentRoute.Add(startCity);
-            adjacentCities.Remove(startCity);
-
-            List<double> delta = new List<double>(adjacentCities.Count);
-            int numberCities = adjacentCities.Count;
-            for (int i = 0; i < numberCities; i++)
-            {
-                City nextCity = Route.CompareCities(startCity, lastCity, adjacentCities);
-                parentRoute.Add(nextCity);
-                adjacentCities.Remove(nextCity);
-                lastCity = nextCity;
-            }
-            Console.WriteLine(string.Join(", ", adjacentCities));
-
-            Console.WriteLine(string.Join(", ", parentRoute));
-
-            
-
-            return new Route(parentRoute);
 
         }
     }

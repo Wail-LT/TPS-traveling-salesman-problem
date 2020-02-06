@@ -5,6 +5,7 @@ using PTS.App.DataBase;
 using MySql.Data.MySqlClient;
 using System.Data.Common;
 using System.Collections.Generic;
+using PTS.App.Utils;
 
 namespace PTS.App
 {
@@ -47,31 +48,84 @@ namespace PTS.App
                 cities.Add("75001", "Paris");
                 cities.Add("44100", "Nantes");
                 cities.Add("13001", "Marseille");
-                /*cities.Add("68100", "Mulhouse");
+                cities.Add("68100", "Mulhouse");
                 cities.Add("59300", "Valenciennes");
                 cities.Add("06100", "Nice");
                 cities.Add("14100", "Lisieux");
                 cities.Add("57000", "Metz");
                 cities.Add("33310", "Lormont");
-                cities.Add("31000", "Toulouse");*/
+                cities.Add("31000", "Toulouse");
 
                 Console.WriteLine("¨BEFORE");
                 //init the app with database connection
                 App app = new App(DataBaseManager.Connection, cities);
 
-                CityManager cm = new CityManager(DataBaseManager.Connection);
-                List<City> cities2 = cm.GetCities(cities);
+                app.population = app.populationManager.GeneratePopulation(IniFunctions.AdamAndEve);
                 
-                //Route bestCity = app.population.BestRoute;
-                //int bestGen = 0;
-                Route bestRoute = Utils.SelectionMethodes.PreSelect(cities2);
+                Route bestCity = app.population.BestRoute;
+                int bestGen = 0;
+
+                /*Route bestRoute = IniFunctions.PreSelect(cities2);
                 Console.WriteLine(bestRoute);
 
-                //Print the first population
-                //Console.WriteLine("GEN {0}", 1);
-                //Console.WriteLine(app.population.ToString());
+                Population pop = app.populationManager.GeneratePopulation(IniFunctions.AdamAndEve);
+                Console.WriteLine("pop");
+                Console.WriteLine(pop);
+                Console.WriteLine(pop.BestRoute);
+                Population pop2 = app.populationManager.GeneratePopulation();
+                Console.WriteLine("pop2");
+                Console.WriteLine(pop2);
+                Console.WriteLine(pop2.BestRoute);*/
 
-                /*for (int i = 0; i < 99; i++)
+                //Print the first population
+                Console.WriteLine("GEN {0}", 1);
+                Console.WriteLine(app.population.ToString());
+
+                for (int i = 0; i < 99; i++)
+                {
+                    if (bestCity.Fitness > app.population.BestFitness)
+                    {
+                        //Print the current population
+                        Console.WriteLine("GEN {0}", i);
+                        Console.WriteLine(app.population.ToString());
+
+                        bestCity = app.population.BestRoute;
+                        bestGen = i;
+                    }
+
+                    //Generate the new one; Journey : Montpellier, Grenoble, Mulhouse, Valenciennes, Paris, Nantes,  Fitness : 1470216.5560350444
+                    app.NextGen(Utils.SelectionMethodes.Elitist);
+                }
+
+                if (bestCity.Fitness > app.population.BestFitness)
+                {
+                    //Print the last generation
+                    Console.WriteLine("GEN 100");
+                    Console.WriteLine(app.population.ToString());
+
+                    bestCity = app.population.BestRoute;
+                    bestGen = 100;
+                }
+
+                Console.WriteLine("Best Route Found : \n " +
+                    "{0}\n" +
+                    "Generation : {1}",
+                    bestCity,
+                    bestGen);
+
+
+
+
+                Console.WriteLine("¨Tournament");
+
+                app.population = app.populationManager.GeneratePopulation();
+
+                bestCity = app.population.BestRoute;
+                //Print the first population
+                Console.WriteLine("GEN {0}", 1);
+                Console.WriteLine(app.population.ToString());
+
+                for (int i = 0; i < 99; i++)
                 {
                     if (bestCity.Fitness > app.population.BestFitness)
                     {
@@ -104,9 +158,13 @@ namespace PTS.App
                     bestGen);
 
 
+
+
+
+
                 Console.WriteLine("ELITISTE");
                 //init the app with database connection
-                app = new App(DataBaseManager.Connection, cities);
+                app.population = app.populationManager.GeneratePopulation();
 
                 bestCity = app.population.BestRoute;
                 bestGen = 0;
@@ -148,7 +206,7 @@ namespace PTS.App
                     "Generation : {1}",
                     bestCity,
                     bestGen);
-                DataBaseManager.CloseConnection();*/
+                DataBaseManager.CloseConnection();
             }
         }
 
