@@ -14,9 +14,9 @@ namespace PTS.App.Managers
         public readonly int NUMBER_ROUTE;
         public const int MAX_NUMBER_ROUTE = 300;
 
-        public PopulationManager(MySqlConnection dbConn, Dictionary<string, string> cities)
+        public PopulationManager (Dictionary<string, string> cities)
         {
-            this.routeManager = new RouteManager(dbConn, cities);
+            this.routeManager = new RouteManager(cities);
 
             //The number of route = 15% of all possibilities
             NUMBER_ROUTE = (int)(Utils.Utils.Factor(cities.Count - 1) * 0.15);

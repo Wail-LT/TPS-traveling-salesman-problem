@@ -20,7 +20,7 @@ namespace PTS.App
         private App(MySqlConnection dbConn, Dictionary<string, string> cities)
         {
             //1. init the populationManager with connection to the database
-            populationManager = new PopulationManager(dbConn, cities);
+            populationManager = new PopulationManager(cities);
 
             //2. Generate the first population
             population = populationManager.GeneratePopulation();
@@ -94,7 +94,7 @@ namespace PTS.App
                     }
 
                     //Generate the new one; Journey : Montpellier, Grenoble, Mulhouse, Valenciennes, Paris, Nantes,  Fitness : 1470216.5560350444
-                    app.NextGen(Utils.SelectionMethodes.Elitist);
+                    app.NextGen(Utils.SelectionMethodes.SelectBefore);
                 }
 
                 if (bestCity.Fitness > app.population.BestFitness)

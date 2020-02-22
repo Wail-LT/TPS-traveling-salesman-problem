@@ -9,13 +9,6 @@ namespace PTS.App.Managers
 {
     public class CityManager
     {
-        private readonly MySqlConnection dbConn;
-
-        public CityManager(MySqlConnection dbConn)
-        {
-            this.dbConn = dbConn;
-        }
-
         public City GetCity(string cityName, string cityZIP)
         {
             //Create a request to get the city

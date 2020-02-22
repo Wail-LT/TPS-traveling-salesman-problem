@@ -10,7 +10,7 @@ namespace PTS.Controllers
     [Route("[controller]")]
     public class CityController : ControllerBase
     {
-        private CityManager cityManager = new CityManager(App.DataBase.DataBaseManager.Connection);
+        private CityManager cityManager = new CityManager();
 
         [HttpGet]
         public IEnumerable<Dictionary<string, string>> GetAll()

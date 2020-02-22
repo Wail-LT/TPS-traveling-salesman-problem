@@ -10,7 +10,7 @@ namespace PTS.Controllers
     [Route("[controller]")]
     public class RouteController : ControllerBase
     {
-        private CityManager cityManager = new CityManager(App.DataBase.DataBaseManager.Connection);
+        private CityManager cityManager = new CityManager();
 
         [HttpPost]
         public string GetBestRoute(string str)

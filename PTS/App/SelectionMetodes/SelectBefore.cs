@@ -1,72 +1,23 @@
-﻿using System;
+﻿using PTS.App.Objects;
+using System;
 using System.Collections.Generic;
-using System.Security.Cryptography;
-using PTS.App.Objects;
 using System.Linq;
+using System.Threading.Tasks;
 
-namespace PTS.App.Utils
+namespace PTS.App.SelectionMetodes
 {
-    public static class SelectionMethodes
+    public class SelectBefore : SelectionMethode
     {
-        private static double ELITIST_OFFSET = 0.15;
+        private const double D_MUTATE_FACTOR = 0.3;
+
         private static List<int> indexMates = new List<int>();
         private static bool goodParent = true;
 
-        public static Route Tournament(List<Route> routes)
+        public SelectBefore(double mFactor = D_MUTATE_FACTOR) : base(mFactor) { }
+
+        public override Route Selection(List<Route> Routes)
         {
-            List<int> Participant = new List<int>();
-
-            //Create Tournament between 15% of the routes
-            int size = (int)(routes.Count * 0.15);
-
-            Random random = Utils.Random;
-
-            //First participant
-            int index = random.Next(0, routes.Count);
-            //Add it to the list of participant
-            Participant.Add(index);
-
-            //Index of new participants 
-            int rIndex;
-
-            for (int i = 0; i < size - 1; i++)
-            {
-                do
-                {
-                    //New random participant
-                    rIndex = random.Next(0, routes.Count);
-                } while (Participant.Contains(rIndex));
-
-                //Add it to the list of participant
-                Participant.Add(rIndex);
-
-                //If fitess of the new participant is better than the current best one
-                //then save it as better participant
-                if (routes[index].Fitness > routes[rIndex].Fitness)
-                {
-                    index = rIndex;
-                }
-            }
-
-            return routes[index];
-        }
-
-        public static Route Elitist(List<Route> routes)
-        {
-            Random random = Utils.Random;
-
-            List<Route> bestRoutes = routes.OrderBy(j => j.Fitness)
-                                                 .Take((int)(routes.Count * ELITIST_OFFSET))
-                                                 .ToList();
-
-            return bestRoutes[random.Next(bestRoutes.Count)];
-        }
-
-
-
-        public static Route SelectBefore(List<Route> Routes)
-        {
-            Random random = Utils.Random;
+            Random random = Utils.Utils.Random;
 
             //The 15% Routes
             int pivot = (int)(0.15 * Routes.Count);
@@ -75,9 +26,9 @@ namespace PTS.App.Utils
 
             // List<int> indexMates = Stochastique(badRoutes, pivot);
             // List<Route> mates =
-            if (SelectionMethodes.indexMates == null || SelectionMethodes.indexMates.Count == 0)
+            if (indexMates == null || indexMates.Count == 0)
                 indexMates = Stochastique(badRoutes, pivot);
-            Random randomIndex = Utils.Random;
+            Random randomIndex = Utils.Utils.Random;
             Route result;
             if (goodParent)
             {
@@ -92,18 +43,18 @@ namespace PTS.App.Utils
 
             goodParent = !goodParent;
 
-            return result; 
+            return result;
         }
 
-        private static  List<int> Stochastique(List<Route> routes,int nbReproduction)
+        private static List<int> Stochastique(List<Route> routes, int nbReproduction)
         {
             double fitnessTotal = 0;
             List<double> pourcentageCumuler = new List<double>();
             List<int> indexReproduction = new List<int>();
-            Random random = Utils.Random;
-           
+            Random random = Utils.Utils.Random;
+
             //allows to have the total of the fitness
-            for (int i=0; i<routes.Count; i++)
+            for (int i = 0; i < routes.Count; i++)
             {
                 fitnessTotal = fitnessTotal + routes[i].Fitness;
             }
@@ -111,7 +62,7 @@ namespace PTS.App.Utils
             pourcentageCumuler.Add(routes[0].Fitness / fitnessTotal);
             for (int i = 1; i < routes.Count; i++)
             {
-                pourcentageCumuler.Add(( routes[0].Fitness / fitnessTotal) + pourcentageCumuler[i - 1]);              
+                pourcentageCumuler.Add((routes[0].Fitness / fitnessTotal) + pourcentageCumuler[i - 1]);
             }
 
             int parentIndex;
@@ -125,7 +76,7 @@ namespace PTS.App.Utils
                 {
                     int currentIndex = pourcentageCumuler.IndexOf(pourcentage);
 
-                    if (currentIndex == pourcentageCumuler.Count-1)
+                    if (currentIndex == pourcentageCumuler.Count - 1)
                         return randomPourcentage >= pourcentage;
                     else if (currentIndex > 0)
                         return pourcentageCumuler[currentIndex - 1] > randomPourcentage && randomPourcentage <= pourcentage;

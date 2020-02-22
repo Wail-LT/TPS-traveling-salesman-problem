@@ -12,10 +12,10 @@ namespace PTS.App.Managers
         public readonly List<City> cities;
         private readonly CityManager cityManager;
 
-        public RouteManager(MySql.Data.MySqlClient.MySqlConnection dbConn, Dictionary<string, string> cities)
+        public RouteManager(Dictionary<string, string> cities)
         {
             //Init the cityManager
-            cityManager = new CityManager(dbConn);
+            cityManager = new CityManager();
 
             //Get the list of cities
             List<City> citiesTemp = cityManager.GetCities(cities);
