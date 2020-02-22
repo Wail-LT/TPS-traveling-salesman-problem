@@ -23,7 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="API\Result\" />
     <Folder Include="API\NewFolder\" />
     <Folder Include="App\Managers\" />
     <Folder Include="App\Objects\" />
