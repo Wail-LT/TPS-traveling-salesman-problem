@@ -116,7 +116,7 @@ namespace PTS.App.Managers
             return citiesList;
         }
 
-        public List<Dictionary<string,string>> GetAllCitiesName()
+        public List<Tuple<string,string>> GetAllCitiesName()
         {
             //Create a request to get the cities
             using MySqlCommand rqst = DataBaseManager.Connection.CreateCommand();
@@ -128,7 +128,7 @@ namespace PTS.App.Managers
 
 
             //Create the list of cities
-            List<Dictionary<string,string>> citiesList = new List<Dictionary<string, string>>();
+            List<Tuple<string,string>> citiesList = new List<Tuple<string, string>>();
 
             //Running the request  
             using (DbDataReader reader = rqst.ExecuteReader())
@@ -144,7 +144,7 @@ namespace PTS.App.Managers
                         string cityName = reader.GetString(cityNameOrd);
                         string cityZip = reader.GetString(zipOrd);
                         
-                        citiesList.Add(new Dictionary<string, string>{ { "name", cityName }, { "zip", cityZip } });
+                        citiesList.Add(new Tuple<string, string>(cityName,  cityZip));
                     }
                 }
             }

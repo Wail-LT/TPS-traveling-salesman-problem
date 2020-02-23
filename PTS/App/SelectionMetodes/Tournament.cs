@@ -8,8 +8,11 @@ namespace PTS.App.SelectionMetodes
 {
     public class Tournament : SelectionMethode
     {
-        private const double D_MUTATE_FACTOR = 0.01;
+        public new const double D_MUTATE_FACTOR = 0.01;
         public Tournament(double mFactor = D_MUTATE_FACTOR) : base(mFactor) { }
+        
+        //Needed for reflexion
+        public Tournament() : base(D_MUTATE_FACTOR) { }
         public override Route Selection(List<Route> routes)
         {
             List<int> Participant = new List<int>();

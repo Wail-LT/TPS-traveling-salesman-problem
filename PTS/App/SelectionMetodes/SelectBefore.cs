@@ -8,12 +8,15 @@ namespace PTS.App.SelectionMetodes
 {
     public class SelectBefore : SelectionMethode
     {
-        private const double D_MUTATE_FACTOR = 0.3;
+        public new const double D_MUTATE_FACTOR = 0.3;
 
         private static List<int> indexMates = new List<int>();
         private static bool goodParent = true;
 
         public SelectBefore(double mFactor = D_MUTATE_FACTOR) : base(mFactor) { }
+
+        //Needed for reflexion
+        public SelectBefore() : base(D_MUTATE_FACTOR) { }
 
         public override Route Selection(List<Route> Routes)
         {

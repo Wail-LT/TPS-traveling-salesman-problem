@@ -16,7 +16,7 @@ namespace PTS
         public static void Main(string[] args)
         {
             //Setup the database connection
-            /*try
+            try
             {
                 DataBaseManager.SetupConnection();
             }
@@ -25,7 +25,7 @@ namespace PTS
                 Console.WriteLine("Error: " + e.Message);
             }
 
-            CreateWebHostBuilder(args).Build().Run();*/
+            CreateWebHostBuilder(args).Build().Run();
             App.App.Start(20);
         }
 

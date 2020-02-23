@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace PTS.App.SelectionMetodes
 {
-    enum Level
+    enum ESelectionMethodes
     {
         Elitist,
         Tournament,

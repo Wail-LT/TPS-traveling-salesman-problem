@@ -8,9 +8,12 @@ namespace PTS.App.SelectionMetodes
 {
     public class Elitist : SelectionMethode
     {
-        private const double D_MUTATE_FACTOR = 0.3;
-        private static double ELITIST_OFFSET = 0.15;
+        public new const double D_MUTATE_FACTOR = 0.3;
+        private const double ELITIST_OFFSET = 0.15;
         public Elitist(double mFactor = D_MUTATE_FACTOR) : base(mFactor) { }
+        
+        //Needed for reflexion
+        public Elitist() : base(D_MUTATE_FACTOR) { }
         public override Route Selection(List<Route> routes)
         {
             Random random = Utils.Utils.Random;

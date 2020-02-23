@@ -13,9 +13,9 @@ namespace PTS.Controllers
         private CityManager cityManager = new CityManager();
 
         [HttpGet]
-        public IEnumerable<Dictionary<string, string>> GetAll()
+        public IEnumerable<Tuple<string, string>> GetAll()
         {
-            List<Dictionary<string,string>> a = cityManager.GetAllCitiesName();
+            List<Tuple<string,string>> a = cityManager.GetAllCitiesName();
 
             return a;
         }
