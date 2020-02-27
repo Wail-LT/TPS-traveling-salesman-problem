@@ -91,7 +91,7 @@ namespace PTS.App
                         }
 
                         //Generate the new one; 
-                        app.NextGen(selectionMethode.Selection);
+                        app.NextGen(selectionMethode.Selection, selectionMethode.mutateFactor);
                     }
 
                     if (bestRoute.Fitness > app.population.BestFitness)
@@ -111,10 +111,10 @@ namespace PTS.App
             }
         }
 
-        private void NextGen(Func<List<Route>, Route> selectionMethode)
+        private void NextGen(Func<List<Route>, Route> selectionMethode, double mutateFactor)
         {
             //Generate the next generation
-            Population nextPopulation = populationManager.NextGen(population, selectionMethode, 0.1);
+            Population nextPopulation = populationManager.NextGen(population, selectionMethode, mutateFactor);
 
             //store it in the population variable
             population = nextPopulation;
