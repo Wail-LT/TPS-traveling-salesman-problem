@@ -20,7 +20,7 @@ namespace PTS.App.Managers
             //Get the list of cities
             List<City> citiesTemp = cityManager.GetCities(cities);
 
-            Console.WriteLine(citiesTemp.Find(x => x.name == "Paris").GetDistanceTo(citiesTemp.Find(x => x.name == "Marseille"))/1000);
+            /*Console.WriteLine(citiesTemp.Find(x => x.name == "Paris").GetDistanceTo(citiesTemp.Find(x => x.name == "Marseille"))/1000);
             Console.WriteLine(citiesTemp.Find(x => x.name == "Paris").GetDistanceTo(citiesTemp.Find(x => x.name == "Lille"))/1000);
             Console.WriteLine(citiesTemp.Find(x => x.name == "Paris").GetDistanceTo(citiesTemp.Find(x => x.name == "Lyon"))/1000);
             Console.WriteLine(citiesTemp.Find(x => x.name == "Paris").GetDistanceTo(citiesTemp.Find(x => x.name == "Nantes"))/1000);
@@ -29,7 +29,7 @@ namespace PTS.App.Managers
             Console.WriteLine(citiesTemp.Find(x => x.name == "Marseille").GetDistanceTo(citiesTemp.Find(x => x.name == "Nantes"))/1000);
             Console.WriteLine(citiesTemp.Find(x => x.name == "Nantes").GetDistanceTo(citiesTemp.Find(x => x.name == "Lille"))/1000);
             Console.WriteLine(citiesTemp.Find(x => x.name == "Nantes").GetDistanceTo(citiesTemp.Find(x => x.name == "Lyon"))/1000);
-            Console.WriteLine(citiesTemp.Find(x => x.name == "Lyon").GetDistanceTo(citiesTemp.Find(x => x.name == "Lille"))/1000);
+            Console.WriteLine(citiesTemp.Find(x => x.name == "Lyon").GetDistanceTo(citiesTemp.Find(x => x.name == "Lille"))/1000);*/
 
 
             this.cities = new List<City>(citiesTemp);

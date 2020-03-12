@@ -26,7 +26,6 @@ namespace PTS
             {
                 Console.WriteLine("Error: " + e.Message);
             }
-
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>

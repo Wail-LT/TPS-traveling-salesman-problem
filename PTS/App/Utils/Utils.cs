@@ -5,12 +5,13 @@ namespace PTS.App.Utils
     {
         public static readonly Random Random = new Random();
 
-        public static int Factor(int nb)
+        public static ulong Factor(int nb)
         {
-            for (int i = nb-1 ; i > 0; i--)
-                nb *= i;
+            ulong factor = (ulong)nb;
+            for (ulong i = factor - 1 ; i > 0; i--)
+                factor *= i;
 
-            return nb;
+            return factor;
         }
     }
 }
