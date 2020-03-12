@@ -19,14 +19,14 @@ namespace PTS
             try
             {
                 DataBaseManager.SetupConnection();
+                CreateWebHostBuilder(args).Build().Run();
+                App.App.Start(20);
             }
             catch (Exception e)
             {
                 Console.WriteLine("Error: " + e.Message);
             }
 
-            CreateWebHostBuilder(args).Build().Run();
-            App.App.Start(20);
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>

@@ -1,26 +1,94 @@
 import React, { Component } from 'react';
+import { Spinner } from 'reactstrap';
+import MultiSelect from "../List/MultiSelect";
+//import MultiSelect from "@khanacademy/react-multi-select";
+
+
+import './Home.css';
 
 export class Home extends Component {
+  
   static displayName = Home.name;
 
-  render () {
+  constructor(props) {
+    super(props);
+      this.state = {
+          cities: [],
+          selected: [],
+          forecasts: [],
+          loading: true
+      };
+  }
+
+  componentDidMount() {
+    this.populateWeatherData();
+  }
+
+    renderForecastsTable() {
+
+        const cities = this.state.cities
+        const options = cities.map(city => { return { label: city.split("|")[0] + " (" + city.split("|")[1] + ")", value: city } })
+        const selected = this.state.selected
+        const mselect = (<MultiSelect
+            options={options}
+            selected={selected}
+            onSelectedChanged={selected => this.setState({ selected: selected })}
+        />)
+
+        return (
+            <div>
+              <MultiSelect/>
+            <select multiple>
+                {cities.map(city =>
+                    <option value={city}>{city.split("|")[0] + " (" + city.split("|")[1] + ")"}</option>
+                )}
+                </select>
+            </div>
+      /*<table className='table table-striped' aria-labelledby="tabelLabel">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Temp. (C)</th>
+            <th>Temp. (F)</th>
+            <th>Summary</th>
+          </tr>
+        </thead>
+        <tbody>
+          {forecasts.map(forecast =>
+            <tr key={forecast.date}>
+              <td>{forecast.date}</td>
+              <td>{forecast.temperatureC}</td>
+              <td>{forecast.temperatureF}</td>
+              <td>{forecast.summary}</td>
+            </tr>
+          )}
+        </tbody>
+      </table>*/
+    );
+  }
+
+    render() {
+    console.log(this.state.cities);
+    let contents = this.state.loading
+        ? (<div>
+            <Spinner color="primary" />
+            </div>)
+        : this.renderForecastsTable();
+
     return (
       <div>
-        <h1>Hello, world!</h1>
-        <p>Welcome to your new single-page application, built with:</p>
-        <ul>
-          <li><a href='https://get.asp.net/'>ASP.NET Core</a> and <a href='https://msdn.microsoft.com/en-us/library/67ef8sbd.aspx'>C#</a> for cross-platform server-side code</li>
-          <li><a href='https://facebook.github.io/react/'>React</a> for client-side code</li>
-          <li><a href='http://getbootstrap.com/'>Bootstrap</a> for layout and styling</li>
-        </ul>
-        <p>To help you get started, we have also set up:</p>
-        <ul>
-          <li><strong>Client-side navigation</strong>. For example, click <em>Counter</em> then <em>Back</em> to return here.</li>
-          <li><strong>Development server integration</strong>. In development mode, the development server from <code>create-react-app</code> runs in the background automatically, so your client-side resources are dynamically built on demand and the page refreshes when you modify any file.</li>
-          <li><strong>Efficient production builds</strong>. In production mode, development-time features are disabled, and your <code>dotnet publish</code> configuration produces minified, efficiently bundled JavaScript files.</li>
-        </ul>
-        <p>The <code>ClientApp</code> subdirectory is a standard React application based on the <code>create-react-app</code> template. If you open a command prompt in that directory, you can run <code>npm</code> commands such as <code>npm test</code> or <code>npm install</code>.</p>
+        <h1 id="tabelLabel" >Find your way.</h1>
+        <p>Compare different alogrithms to find the shortest route for your travel.</p>
+        {contents}
       </div>
     );
+  }
+
+  async populateWeatherData() {
+    const response = await fetch('setup');
+    const data = await response.json();
+      console.log(this.state.cities);
+      this.setState({ cities: data.cityList.map(city => city.m_Item1 + "|" + city.m_Item2), loading: false });
+
   }
 }
