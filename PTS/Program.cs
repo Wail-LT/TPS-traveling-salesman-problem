@@ -25,7 +25,7 @@ namespace PTS
                 Console.WriteLine("Error: " + e.Message);
             }
 
-            CreateWebHostBuilder(args).Build().Run();
+            //CreateWebHostBuilder(args).Build().Run();
             App.App.Start(20);
         }
 

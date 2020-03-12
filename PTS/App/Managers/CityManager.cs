@@ -19,7 +19,7 @@ namespace PTS.App.Managers
             "ville_longitude_deg, " +
             "ville_latitude_deg " +
             "FROM `villes_france_free` " +
-            $"WHERE UPPER(ville_nom_simple) = UPPER('{ cityName }')" +
+            $"WHERE UPPER(ville_nom_simple) = UPPER('{ cityName.Replace('\'', '-') }')" +
             $"AND ville_code_postal = '{ cityZIP }'";
 
             City city = null;
@@ -77,8 +77,8 @@ namespace PTS.App.Managers
 
             foreach (var item in cities)
             {
-                string where = $"ville_code_postal LIKE '%{item.Key}%' " +
-                    $"AND UPPER(ville_nom_reel) = UPPER('{item.Value}') " +
+                string where = $"(ville_code_postal LIKE '%{item.Key}%' " +
+                    $"AND UPPER(ville_nom_reel) = UPPER('{item.Value.Replace('\'','-')}')) " +
                     $"OR";
 
                 rqst.CommandText += " " + where;
@@ -145,6 +145,42 @@ namespace PTS.App.Managers
                         string cityZip = reader.GetString(zipOrd);
                         
                         citiesList.Add(new Tuple<string, string>(cityName,  cityZip));
+                    }
+                }
+            }
+            return citiesList;
+        }
+
+        public static Dictionary<string, string> GetCitiesNumber(int number)
+        {
+            //Create a request to get the cities
+            using MySqlCommand rqst = DataBaseManager.Connection.CreateCommand();
+
+            //Fill the request
+
+            rqst.CommandText = "SELECT SQL_NO_CACHE ville_nom_reel, " +
+                "ville_code_postal FROM villes_france_free " +
+                "WHERE ville_code_postal in (SELECT ville_code_postal FROM villes_france_free " +
+                "group by ville_code_postal " +
+                "HAVING count(*) = 1) AND RAND() > 0.9 ORDER BY RAND() LIMIT " + number + ";";
+            //Create the dictonnary of cities
+            Dictionary<string, string> citiesList = new Dictionary<string, string>();
+
+            //Running the request  
+            using (DbDataReader reader = rqst.ExecuteReader())
+            {
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+
+                        int cityNameOrd = reader.GetOrdinal("ville_nom_reel");
+                        int zipOrd = reader.GetOrdinal("ville_code_postal");
+
+                        string cityName = reader.GetString(cityNameOrd);
+                        string cityZip = reader.GetString(zipOrd);
+
+                        citiesList.Add(cityZip,cityName);
                     }
                 }
             }

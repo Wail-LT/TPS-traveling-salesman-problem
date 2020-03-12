@@ -7,6 +7,7 @@ using System.Data.Common;
 using System.Collections.Generic;
 using PTS.App.Utils;
 using PTS.App.SelectionMetodes;
+using System.Diagnostics;
 
 namespace PTS.App
 {
@@ -42,8 +43,9 @@ namespace PTS.App
             if (DataBaseManager.Connection != null)
             {
                 //Set the list of city
-                Dictionary<string, string> cities = new Dictionary<string, string>();
-
+                //Dictionary<string, string> cities = new Dictionary<string, string>();
+                Dictionary<string, string> cities = CityManager.GetCitiesNumber(50);
+                /*
                 cities.Add("69001", "Lyon");
                 cities.Add("59000", "Lille");
                 cities.Add("75001", "Paris");
@@ -56,7 +58,18 @@ namespace PTS.App
                 cities.Add("57000", "Metz");
                 cities.Add("33310", "Lormont");
                 cities.Add("31000", "Toulouse");
-
+                cities.Add("01450", "Bolozon");
+                cities.Add("07110", "Montréal");
+                cities.Add("09110", "Prades");
+                cities.Add("10700", "Poivres");
+                cities.Add("19140", "Eyburie");
+                cities.Add("25240", "Gellin");
+                cities.Add("25680", "Nans");
+                cities.Add("32240", "Toujouse");
+                cities.Add("63690", "Tauves");
+                cities.Add("64490", "Sarrance");
+                */
+                
                 //init the app with database connection
                 App app = new App(DataBaseManager.Connection, cities);
 
@@ -67,6 +80,8 @@ namespace PTS.App
 
                 foreach (ESelectionMethodes eMethode in Enum.GetValues(typeof(ESelectionMethodes)))
                 {
+                    Stopwatch stopwatch = new Stopwatch();
+                    stopwatch.Start();
                     Console.WriteLine(eMethode.ToString());
 
                     //Get the type of the selection methodes
@@ -105,6 +120,8 @@ namespace PTS.App
                         "Generation : {1}",
                         bestRoute,
                         bestGen);
+                    stopwatch.Stop();
+                    Console.WriteLine("Durée d'exécution: {0}", stopwatch.Elapsed.TotalSeconds);
                 }
 
                 DataBaseManager.CloseConnection();

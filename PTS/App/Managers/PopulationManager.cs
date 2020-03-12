@@ -17,11 +17,10 @@ namespace PTS.App.Managers
         public PopulationManager (Dictionary<string, string> cities)
         {
             this.routeManager = new RouteManager(cities);
-
             //The number of route = 15% of all possibilities
-            NUMBER_ROUTE = (int)(Utils.Utils.Factor(cities.Count - 1) * 0.15);
+            ulong number = (ulong)(Utils.Utils.Factor(cities.Count - 1) * 0.15);
             //If number of route > 100 set it to 100
-            NUMBER_ROUTE = NUMBER_ROUTE > MAX_NUMBER_ROUTE ? MAX_NUMBER_ROUTE : NUMBER_ROUTE;
+            NUMBER_ROUTE = number > MAX_NUMBER_ROUTE ? MAX_NUMBER_ROUTE : (int)number;
         }
 
         public Population GeneratePopulation(Func<List<City>, int, Population> iniFunc = null)
