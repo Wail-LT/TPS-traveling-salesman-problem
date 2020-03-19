@@ -13,7 +13,7 @@ namespace PTS.API.Result.Result
         public readonly Dictionary<string, string> cities;
         [DataMember]
         public readonly List<Tuple<string, double>> selectionMethods;
-        public RGetResults(int token, List<Tuple<string, double>> selectionMethodes, List<Tuple<string, string>> cityList)
+        public RGetResults(List<Tuple<string, double>> selectionMethodes, List<Tuple<string, string>> cityList)
         {
             this.cities = new Dictionary<string, string>(cities);
             this.selectionMethods = new List<Tuple<string, double>>(selectionMethodes);
