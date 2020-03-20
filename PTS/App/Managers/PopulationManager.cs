@@ -18,9 +18,8 @@ namespace PTS.App.Managers
         {
             this.routeManager = new RouteManager(cities);
             //The number of route = 15% of all possibilities
-            ulong number = (ulong)(Utils.Utils.Factor(cities.Count - 1) * 0.15);
-            //If number of route > 100 set it to 100
-            NUMBER_ROUTE = number > MAX_NUMBER_ROUTE ? MAX_NUMBER_ROUTE : (int)number;
+            //If number of route > 300 set it to 300
+            NUMBER_ROUTE = cities.Count > 6 ? MAX_NUMBER_ROUTE : (int)(Utils.Utils.Factor(cities.Count - 1) * 0.15);
         }
 
         public Population GeneratePopulation(Func<List<City>, int, Population> iniFunc = null)
@@ -74,11 +73,11 @@ namespace PTS.App.Managers
 
                     //Second step : crossing method
                     child = parent1.CrossoverWith(parent2);
-                    
-                } while (routes.Exists(route => route != null && route.Cities.SequenceEqual(child.Cities)));
 
-                if (Utils.Utils.Random.NextDouble() < mutateFactor)
-                    child.Mutate(mutateFactor);
+                    if (Utils.Utils.Random.NextDouble() < mutateFactor)
+                        child.Mutate(mutateFactor);
+
+                } while (routes.Exists(route => route != null && route.Cities.SequenceEqual(child.Cities)));
 
                 //Third step : Add the child to the list
                 routes.Add(new Route(child));

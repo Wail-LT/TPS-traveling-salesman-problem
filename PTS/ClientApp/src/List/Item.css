@@ -1,0 +1,25 @@
+﻿.itemContainer{
+    border: 1px solid #ced4da;
+    border-radius: 99px;
+    margin: 5px;
+    text-align: left;
+    padding: 5px 15px 5px 15px;
+    display: inline-block;
+}
+
+hr{
+    margin-top: 0;
+}
+.deleteIcon{
+    padding-left: 15px;
+    height: 16px;
+    width: 16px;
+}
+
+.deleteIcon>img{
+    height: 16px;
+    width: 16px;
+    transform: rotate(45deg);
+    cursor: pointer;
+}
+

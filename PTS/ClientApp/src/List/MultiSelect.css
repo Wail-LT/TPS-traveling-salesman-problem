@@ -1,0 +1,28 @@
+﻿.selectedListContainer{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.ptsContainer{
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    text-align: left !important;
+    margin: 5px 0 5px 0;
+    box-shadow: 0 2px 6px 1px rgba(0,0,0,.15);
+}
+.validated{
+    box-shadow: none;
+}
+.searchRes{
+    padding: 10px 15px 10px 15px;
+}
+.searchRes:hover{
+    background-color: #f4f6f7;
+}
+.searchRes{
+    cursor: pointer;
+}
+.buttonContainer{
+    text-align: right;
+    padding-right: 15px;
+    padding-bottom: 15px;
+}

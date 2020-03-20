@@ -16,6 +16,7 @@ namespace PTS.App.Managers
 
             //Fill the request
             rqst.CommandText = "SELECT ville_nom_reel, " +
+            "ville_code_postal, " +
             "ville_longitude_deg, " +
             "ville_latitude_deg " +
             "FROM `villes_france_free` " +
@@ -48,12 +49,14 @@ namespace PTS.App.Managers
                         int cityNameOrd = reader.GetOrdinal("ville_nom_simple");
                         int longitudeOrd = reader.GetOrdinal("ville_nom_simple");
                         int latitudeOrd = reader.GetOrdinal("ville_nom_simple");
+                        int zipOrd = reader.GetOrdinal("ville_code_postal");
 
                         string name = reader.GetString(cityNameOrd);
                         double longitude = reader.GetDouble(longitudeOrd);
                         double latitude = reader.GetDouble(latitudeOrd);
+                        string cityZip = reader.GetString(zipOrd);
 
-                        city = new City(name, longitude, latitude);
+                        city = new City(name, cityZip, longitude, latitude);
 
                         rowCount++;
                     }
@@ -70,6 +73,7 @@ namespace PTS.App.Managers
 
             //Fill the request
             rqst.CommandText = "SELECT ville_nom_reel, " +
+                "ville_code_postal, " +
                 "ville_longitude_deg, " +
                 "ville_latitude_deg " +
                 "FROM `villes_france_free` " +
@@ -104,19 +108,21 @@ namespace PTS.App.Managers
                         int cityNameOrd = reader.GetOrdinal("ville_nom_reel");
                         int longitudeOrd = reader.GetOrdinal("ville_longitude_deg");
                         int latitudeOrd = reader.GetOrdinal("ville_latitude_deg");
-
+                        int zipOrd = reader.GetOrdinal("ville_code_postal");
+                        
                         string name = reader.GetString(cityNameOrd);
                         double longitude = reader.GetDouble(longitudeOrd);
                         double latitude = reader.GetDouble(latitudeOrd);
+                        string cityZip = reader.GetString(zipOrd);
 
-                        citiesList.Add(new City(name, longitude, latitude));
+                        citiesList.Add(new City(name, cityZip, longitude, latitude));
                     }
                 }
             }
             return citiesList;
         }
 
-        public List<Tuple<string,string>> GetAllCitiesName()
+        public List<City> GetAllCitiesName()
         {
             //Create a request to get the cities
             using MySqlCommand rqst = DataBaseManager.Connection.CreateCommand();
@@ -128,7 +134,7 @@ namespace PTS.App.Managers
 
 
             //Create the list of cities
-            List<Tuple<string,string>> citiesList = new List<Tuple<string, string>>();
+            List<City> citiesList = new List<City>();
 
             //Running the request  
             using (DbDataReader reader = rqst.ExecuteReader())
@@ -143,11 +149,68 @@ namespace PTS.App.Managers
 
                         string cityName = reader.GetString(cityNameOrd);
                         string cityZip = reader.GetString(zipOrd);
-                        
-                        citiesList.Add(new Tuple<string, string>(cityName,  cityZip));
+
+                        citiesList.Add(new City(cityName, cityZip));
                     }
                 }
             }
+            return citiesList;
+        }
+
+        public List<City> GetCitiesName(string text)
+        {
+            //using MySqlConnection connection = DataBaseManager.GetNewConnection();
+            //Create a request to get the cities
+            using MySqlCommand rqst = DataBaseManager.Connection.CreateCommand();
+
+            //Fill the request
+            rqst.CommandText = "SELECT ville_nom_reel, " +
+                "ville_code_postal " +
+                "FROM `villes_france_free` " +
+                "WHERE UPPER(CONCAT(ville_nom_reel,' (',ville_code_postal,')')) LIKE UPPER('%" + text + "%')" +
+                "LIMIT 5";
+
+
+            //Create the list of cities
+            List<City> citiesList = new List<City>();
+            //Running the request
+            bool exception = false;
+            do
+            {
+                try
+                {
+                    exception = false;
+                                       
+                    using (DbDataReader reader = rqst.ExecuteReader())
+                    {
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+
+                                int cityNameOrd = reader.GetOrdinal("ville_nom_reel");
+                                int zipOrd = reader.GetOrdinal("ville_code_postal");
+
+                                string cityName = reader.GetString(cityNameOrd);
+                                string cityZip = reader.GetString(zipOrd);
+
+                                citiesList.Add(new City(cityName, cityZip));
+                            }
+                        }
+
+                    }
+                }
+                catch (MySql.Data.MySqlClient.MySqlException e)
+                {
+                    //Exception thrown when mutiple request at the same time are sent 
+                    //so we wait until the request are processed
+                    Console.WriteLine(e.Message);
+                    Console.WriteLine(e.StackTrace);
+                    exception = true;
+                }
+
+            } while (exception);
+
             return citiesList;
         }
 

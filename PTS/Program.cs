@@ -20,7 +20,7 @@ namespace PTS
             {
                 DataBaseManager.SetupConnection();
                 CreateWebHostBuilder(args).Build().Run();
-                App.App.Start(20);
+                //App.App.Start(20);
             }
             catch (Exception e)
             {

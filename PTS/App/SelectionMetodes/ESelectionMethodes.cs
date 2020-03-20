@@ -7,8 +7,8 @@ namespace PTS.App.SelectionMetodes
 {
     enum ESelectionMethodes
     {
+        SelectBefore,
         Elitist,
-        Tournament,
-        SelectBefore
+        Tournament
     }
 }

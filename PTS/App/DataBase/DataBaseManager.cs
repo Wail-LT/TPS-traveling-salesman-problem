@@ -12,7 +12,8 @@ namespace PTS.App.DataBase
         private static string database = "pts";
         private static string username = "pts";
         private static string password = "y6NOAw5S3FhLHsWe";
-        private static int port = 3306;
+        private static int port = 3308;
+        private static string ConnString = $"Server={host};Database={database};port={port};User Id={username};password={password};";
 
         public static MySqlConnection Connection => connection;
 
@@ -26,26 +27,9 @@ namespace PTS.App.DataBase
                 Connection.Close();
                 Connection.Dispose();
             }
-                
+
             //Create new connection to the database
-            string connString = $"Server={host};Database={database};port={port};User Id={username};password={password};";
-            connection = new MySqlConnection(connString);
-            try
-            {
-                //Open the connection link
-                connection.Open();
-            }
-            catch(Exception e)
-            {
-                //Close connection
-                connection.Close();
-                connection.Dispose();
-                connection = null;
-
-                //Print error
-                throw new NotImplementedException("Error: " + e.Message);
-
-            }
+            connection = GetNewConnection();
 
         }
 
@@ -57,6 +41,28 @@ namespace PTS.App.DataBase
             connection = null;
         }
 
+
+        public static MySqlConnection GetNewConnection()
+        {
+            MySqlConnection connection = new MySqlConnection(ConnString);
+            try
+            {
+                //Open the connection link
+                connection.Open();
+            }
+            catch (Exception e)
+            {
+                //Close connection
+                connection.Close();
+                connection.Dispose();
+                connection = null;
+
+                //Print error
+                throw new NotImplementedException("Error: " + e.Message);
+
+            }
+            return connection;
+        }
 
     }
 }

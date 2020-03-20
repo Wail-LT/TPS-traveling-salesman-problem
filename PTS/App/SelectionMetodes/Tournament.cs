@@ -15,7 +15,7 @@ namespace PTS.App.SelectionMetodes
         public Tournament() : base(D_MUTATE_FACTOR) { }
         public override Route Selection(List<Route> routes)
         {
-            List<int> Participant = new List<int>();
+            List<int> participant = new List<int>();
 
             //Create Tournament between 15% of the routes
             int size = (int)(routes.Count * 0.15);
@@ -25,7 +25,7 @@ namespace PTS.App.SelectionMetodes
             //First participant
             int index = random.Next(0, routes.Count);
             //Add it to the list of participant
-            Participant.Add(index);
+            participant.Add(index);
 
             //Index of new participants 
             int rIndex;
@@ -36,10 +36,10 @@ namespace PTS.App.SelectionMetodes
                 {
                     //New random participant
                     rIndex = random.Next(0, routes.Count);
-                } while (Participant.Contains(rIndex));
+                } while (participant.Contains(rIndex));
 
                 //Add it to the list of participant
-                Participant.Add(rIndex);
+                participant.Add(rIndex);
 
                 //If fitess of the new participant is better than the current best one
                 //then save it as better participant

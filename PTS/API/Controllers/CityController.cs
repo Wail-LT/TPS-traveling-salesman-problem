@@ -3,21 +3,26 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using PTS.App.Managers;
 using PTS.App.Objects;
+using PTS.App.Utils;
 
 namespace PTS.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class CityController : ControllerBase
     {
         private CityManager cityManager = new CityManager();
 
-        [HttpGet]
-        public IEnumerable<Tuple<string, string>> GetAll()
+        [HttpGet, Route("")]
+        public String GetAll()
         {
-            List<Tuple<string,string>> a = cityManager.GetAllCitiesName();
+            return Utils.SerializeObj<List<City>>(cityManager.GetAllCitiesName());
+        }
 
-            return a;
+        [HttpGet, Route("location")]
+        public String GetCities(String text)
+        {
+            return Utils.SerializeObj<List<City>>(cityManager.GetCitiesName(text));
         }
     }
 }

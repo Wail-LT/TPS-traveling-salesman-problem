@@ -44,31 +44,7 @@ namespace PTS.App
             {
                 //Set the list of city
                 //Dictionary<string, string> cities = new Dictionary<string, string>();
-                Dictionary<string, string> cities = CityManager.GetCitiesNumber(50);
-                /*
-                cities.Add("69001", "Lyon");
-                cities.Add("59000", "Lille");
-                cities.Add("75001", "Paris");
-                cities.Add("44100", "Nantes");
-                cities.Add("13001", "Marseille");
-                cities.Add("68100", "Mulhouse");
-                cities.Add("59300", "Valenciennes");
-                cities.Add("06100", "Nice");
-                cities.Add("14100", "Lisieux");
-                cities.Add("57000", "Metz");
-                cities.Add("33310", "Lormont");
-                cities.Add("31000", "Toulouse");
-                cities.Add("01450", "Bolozon");
-                cities.Add("07110", "Montréal");
-                cities.Add("09110", "Prades");
-                cities.Add("10700", "Poivres");
-                cities.Add("19140", "Eyburie");
-                cities.Add("25240", "Gellin");
-                cities.Add("25680", "Nans");
-                cities.Add("32240", "Toujouse");
-                cities.Add("63690", "Tauves");
-                cities.Add("64490", "Sarrance");
-                */
+                Dictionary<string, string> cities = CityManager.GetCitiesNumber(300);
                 
                 //init the app with database connection
                 App app = new App(DataBaseManager.Connection, cities);
@@ -80,48 +56,65 @@ namespace PTS.App
 
                 foreach (ESelectionMethodes eMethode in Enum.GetValues(typeof(ESelectionMethodes)))
                 {
-                    Stopwatch stopwatch = new Stopwatch();
-                    stopwatch.Start();
-                    Console.WriteLine(eMethode.ToString());
+                    double execTime = 0;
+                    double fitness = 0;
+                    int bestGenMean = 0;
 
-                    //Get the type of the selection methodes
-                    methodeType = Type.GetType("PTS.App.SelectionMetodes."+eMethode.ToString());
-
-                    //Instanciate the selectionMethode
-                    selectionMethode = (SelectionMethode)Activator.CreateInstance(methodeType);
-
-                    //Generate first population
-                    app.population = app.populationManager.GeneratePopulation();
-
-                    bestRoute = app.population.BestRoute;
-                    bestGen = 0;
-
-
-                    for (int i = 0; i < 99; i++)
+                    for (int j = 0; j < 4; j++) 
                     {
+                        Stopwatch stopwatch = new Stopwatch();
+                        stopwatch.Start();
+                        Console.WriteLine(eMethode.ToString());
+
+                        //Get the type of the selection methodes
+                        methodeType = Type.GetType("PTS.App.SelectionMetodes." + eMethode.ToString());
+
+                        //Instanciate the selectionMethode
+                        selectionMethode = (SelectionMethode)Activator.CreateInstance(methodeType);
+
+                        Func<List<City>, int, Population> iniFunc = null;
+                        //Generate first population
+                        if (selectionMethode is SelectBefore)
+                            iniFunc = Utils.IniFunctions.AdamAndEve;
+                        app.population = app.populationManager.GeneratePopulation(iniFunc);
+
+                        bestRoute = app.population.BestRoute;
+                        bestGen = 0;
+
+
+                        for (int i = 0; i < 99; i++)
+                        {
+                            if (bestRoute.Fitness > app.population.BestFitness)
+                            {
+                                bestRoute = app.population.BestRoute;
+                                bestGen = i;
+                            }
+
+                            //Generate the new one; 
+                            app.NextGen(selectionMethode.Selection, selectionMethode.mutateFactor);
+                        }
+
                         if (bestRoute.Fitness > app.population.BestFitness)
                         {
                             bestRoute = app.population.BestRoute;
-                            bestGen = i;
+                            bestGen = 100;
                         }
 
-                        //Generate the new one; 
-                        app.NextGen(selectionMethode.Selection, selectionMethode.mutateFactor);
+                        stopwatch.Stop();
+                        execTime += stopwatch.Elapsed.TotalSeconds;
+                        fitness += bestRoute.Fitness;
+                        bestGenMean += bestGen;
                     }
+                    
 
-                    if (bestRoute.Fitness > app.population.BestFitness)
-                    {
-                        bestRoute = app.population.BestRoute;
-                        bestGen = 100;
-                    }
-
-                    Console.WriteLine("Best Route Found : \n " +
+                    Console.WriteLine("Best Fitness Found : \n " +
                         "{0}\n" +
                         "Generation : {1}",
-                        bestRoute,
-                        bestGen);
-                    stopwatch.Stop();
-                    Console.WriteLine("Durée d'exécution: {0}", stopwatch.Elapsed.TotalSeconds);
+                        Math.Round(fitness / 4000, 2),
+                        bestGenMean/ 4);
+            
+                    Console.WriteLine(fitness / 4);
+                    Console.WriteLine("Durée d'exécution: {0}",execTime/4.0);
                 }
 
                 DataBaseManager.CloseConnection();

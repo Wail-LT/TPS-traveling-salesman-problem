@@ -8,11 +8,12 @@ using PTS.API.Result.Setup;
 using PTS.App.Managers;
 using PTS.App.Objects;
 using PTS.App.SelectionMetodes;
+using PTS.App.Utils;
 
 namespace PTS.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class SetupController : ControllerBase
     {
         private CityManager cityManager = new CityManager();
@@ -22,9 +23,6 @@ namespace PTS.Controllers
         {
             //Create new session
             int token = SessionManager.NewSession();
-
-            //Get cityNames
-            List<Tuple<string, string>> cityList = cityManager.GetAllCitiesName();
 
             //Get list of the selection methodes available and their default mutate factor
             Type methodeType;
@@ -44,22 +42,10 @@ namespace PTS.Controllers
 
             }
 
-            RGetToken result = new RGetToken(token, selectionMethodes, cityList);
+            RGetToken result = new RGetToken(token, selectionMethodes);
+            
             //Serialization to JSON
-
-
-            DataContractJsonSerializer js = new DataContractJsonSerializer(typeof(RGetToken));
-            MemoryStream msObj = new MemoryStream();
-            js.WriteObject(msObj, result);
-            msObj.Position = 0;
-            StreamReader sr = new StreamReader(msObj);
-
-            string json = sr.ReadToEnd();
-
-            sr.Close();
-            msObj.Close();
-
-            return json;
+            return Utils.SerializeObj<RGetToken>(result);
         }
     }
 }
