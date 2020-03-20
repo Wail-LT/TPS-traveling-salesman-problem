@@ -21,7 +21,10 @@ namespace PTS.API
             populationManager = new PopulationManager(cities);
             lastUse = DateTime.UtcNow;
         }
-
+        public PopulationManager GetPopulationManager()
+        {
+            return populationManager;
+        }
         public void SetPopulationManager(Dictionary<string, string> cities)
         {
             populationManager = new PopulationManager(cities);
