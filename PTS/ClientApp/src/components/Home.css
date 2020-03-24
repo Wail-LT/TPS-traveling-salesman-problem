@@ -38,3 +38,9 @@
     margin-top: 30px;
     text-align: right;
 }
+
+#cities_number{
+    margin-left: 16px;
+    width: 100px;
+    flex: inherit;
+}

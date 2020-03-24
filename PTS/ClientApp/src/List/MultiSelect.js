@@ -56,7 +56,9 @@ export default class MultiSelect extends Component {
                 {this.searchResList()}
                 {this.selectedList()}
                 {this.state.searching && (<div className={"buttonContainer"}>
-                    <Button color="primary" onClick={() => this.setState({ searching: false })}>Apply changes</Button>
+                    <Button color="primary" onClick={() => {
+                        this.setState({ searching: false })
+                        this.props.onValidate()}}>Apply changes</Button>
                 </div>)}
             </div>);
 

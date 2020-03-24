@@ -1,22 +1,22 @@
-﻿using System;
+﻿using PTS.App.Objects;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Threading.Tasks;
 
-namespace PTS.API.Result.Result
+namespace PTS.API.Controllers.Result.Result
 {
-    [DataContract]
+    [DataContract()]
     public class RGetResults
     {
-        [DataMember]
-        public readonly Dictionary<string, string> cities;
-        [DataMember]
-        public readonly List<Tuple<string, double>> selectionMethods;
-        public RGetResults(List<Tuple<string, double>> selectionMethodes, Dictionary<string, string> cities)
+        [DataMember()]
+        public readonly IEnumerable<IEnumerable<double>> bestFitnessPerGen;
+
+        [DataMember()]
+        public readonly IEnumerable<IEnumerable<City>> bestRoutePerMethod;
+
+        public RGetResults(IEnumerable<IEnumerable<double>> bestFitnessPerGen, IEnumerable<IEnumerable<City>> bestRoutePerMethod)
         {
-            this.cities = new Dictionary<string, string>(cities);
-            this.selectionMethods = new List<Tuple<string, double>>(selectionMethodes);
+            this.bestFitnessPerGen = bestFitnessPerGen;
+            this.bestRoutePerMethod = bestRoutePerMethod;
         }
     }
 }

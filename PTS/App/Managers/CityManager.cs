@@ -81,7 +81,7 @@ namespace PTS.App.Managers
 
             foreach (var item in cities)
             {
-                string where = $"(ville_code_postal LIKE '%{item.Key}%' " +
+                string where = $"(ville_code_postal LIKE '%{item.Key.Split('.')[0]}%' " +
                     $"AND UPPER(ville_nom_reel) = UPPER('{item.Value.Replace('\'','-')}')) " +
                     $"OR";
 

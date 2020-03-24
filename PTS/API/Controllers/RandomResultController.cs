@@ -17,7 +17,7 @@ namespace PTS.Controllers
     [ApiController]
     [Route("api/[controller]")]
 
-    public class ResultController : ControllerBase
+    public class RandomResultController : ControllerBase
     {
 
         private Population population;
@@ -26,20 +26,16 @@ namespace PTS.Controllers
         public string GetResults([FromBody] Object jsonParams)
         {
             string json = "{}";
-            try
-            {
+            //try
+           // {
                 JObject jsonObj = JObject.Parse(jsonParams.ToString());
                 PGetResults parameters = jsonObj.ToObject<PGetResults>();
 
                 //Get session from token
                 Session session = SessionManager.GetSession(parameters.sessionToken);
 
-                Dictionary<string, string> cities = new Dictionary<string, string>();
-
-                //create a Dictionary<zip, cityname> from the given city list
-                parameters.cities.ForEach(city => {
-                    cities.Add(city.zip+ "."+ city.name, city.name);
-                });
+                //Getting random cities
+                Dictionary<string, string> cities = CityManager.GetCitiesNumber(parameters.amountOfCities);
 
                 //Set population from cities
                 session.SetPopulationManager(cities);
@@ -92,11 +88,11 @@ namespace PTS.Controllers
                 json = Utils.SerializeObj<RGetResults>(new RGetResults(bestFitnessPerGen, bestRoutePerMethod));
                 
 
-            }catch(Exception e){
+            /*}catch(Exception e){
                 json = e.Message;
                 Console.WriteLine(e.Message);
                 Console.WriteLine(e.StackTrace);
-            }
+            }*/
 
 
             return json;

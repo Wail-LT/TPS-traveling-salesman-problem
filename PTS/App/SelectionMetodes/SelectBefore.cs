@@ -10,8 +10,8 @@ namespace PTS.App.SelectionMetodes
     {
         public new const double D_MUTATE_FACTOR = 0.3;
 
-        private static List<int> indexMates = new List<int>();
-        private static bool goodParent = true;
+        private List<int> indexMates = new List<int>();
+        private bool goodParent = true;
 
         public SelectBefore(double mFactor = D_MUTATE_FACTOR) : base(mFactor) { }
 
@@ -24,6 +24,7 @@ namespace PTS.App.SelectionMetodes
 
             //The 15% Routes
             int pivot = (int)(0.15 * Routes.Count);
+            pivot = pivot == 0 ? 1 : pivot;
             List<Route> bestRoutes = Routes.Take(pivot).ToList();
             List<Route> badRoutes = Routes.Skip(pivot).ToList();
 
@@ -61,11 +62,12 @@ namespace PTS.App.SelectionMetodes
             {
                 fitnessTotal = fitnessTotal + routes[i].Fitness;
             }
+
             //on calcule le pourcentage cumulé de chaque fitness pr avoir la répartition de chaque fitness
             pourcentageCumuler.Add(routes[0].Fitness / fitnessTotal);
             for (int i = 1; i < routes.Count; i++)
             {
-                pourcentageCumuler.Add((routes[0].Fitness / fitnessTotal) + pourcentageCumuler[i - 1]);
+                pourcentageCumuler.Add((routes[i].Fitness / fitnessTotal) + pourcentageCumuler[i - 1]);
             }
 
             int parentIndex;
@@ -80,11 +82,11 @@ namespace PTS.App.SelectionMetodes
                     int currentIndex = pourcentageCumuler.IndexOf(pourcentage);
 
                     if (currentIndex == pourcentageCumuler.Count - 1)
-                        return randomPourcentage >= pourcentage;
+                        return randomPourcentage >= pourcentageCumuler[currentIndex - 1];
                     else if (currentIndex > 0)
-                        return pourcentageCumuler[currentIndex - 1] > randomPourcentage && randomPourcentage <= pourcentage;
+                        return randomPourcentage >= pourcentageCumuler[currentIndex - 1]  && randomPourcentage < pourcentage;
                     else
-                        return randomPourcentage <= pourcentage;
+                        return randomPourcentage < pourcentage;
 
                 }));
 

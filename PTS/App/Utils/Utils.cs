@@ -32,5 +32,20 @@ namespace PTS.App.Utils
 
             return json;
         }
+
+        public static T DeSerializeObj<T>(string jsonObj)
+        {
+            DataContractJsonSerializer js = new DataContractJsonSerializer(typeof(T));
+            MemoryStream msObj = new MemoryStream();
+            js.WriteObject(msObj, jsonObj);
+            msObj.Position = 0;
+
+
+            T obj = (T)js.ReadObject(msObj);
+
+            msObj.Close();
+
+            return obj;
+        }
     }
 }

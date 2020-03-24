@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { Spinner, Row, Col, Button } from 'reactstrap';
 import MultiSelect from "../List/MultiSelect";
+import { FormGroup, InputGroup, Label, Input } from 'reactstrap';
 import SelectMethode from "../Methode/SelectMethode";
+import { Link, useHistory } from 'react-router-dom';
 
 
 import './Home.css';
@@ -14,12 +16,15 @@ export class Home extends Component {
     super(props);
     this.state = {
       selectedCities: [],
-      selectedMethodes: [{}],
-      value: 0.3,
+      selectedMethods: [{}],
+      enough_city: false,
+      isRandom: false,
+      amout_city: 0,
       loading: true
     };
     this.token = -1;
     this.methodes = [];
+    this.onValidateForm = props.onValidateForm;
     this.unselectCity = this.unselectCity.bind(this);
     this.addSelectedMethode = this.addSelectedMethode.bind(this);
     this.updateSelectedMethode = this.updateSelectedMethode.bind(this);
@@ -35,16 +40,16 @@ export class Home extends Component {
   }
 
   addSelectedMethode() {
-    this.state.selectedMethodes.push({ name: this.methodes[0].name, factor: this.methodes[0].factor });
-    this.setState({ selectedMethodes: this.state.selectedMethodes });
+    this.state.selectedMethods.push({ name: this.methodes[0].name, factor: this.methodes[0].factor });
+    this.setState({ selectedMethods: this.state.selectedMethods });
   }
 
   updateSelectedMethode(methode, index) {
     if (methode !== undefined)
-      this.state.selectedMethodes[index] = methode;
+      this.state.selectedMethods[index] = methode;
     else
-      this.state.selectedMethodes.splice(index, 1);
-    this.setState({ selectedMethodes: this.state.selectedMethodes });
+      this.state.selectedMethods.splice(index, 1);
+    this.setState({ selectedMethods: this.state.selectedMethods });
   }
 
   render() {
@@ -58,17 +63,28 @@ export class Home extends Component {
         <Row>
           <Col xs={{ size: 10, offset: 1 }}>
             <div className="label">Cities to visite :</div>
-            <MultiSelect onDelete={this.unselectCity} selectedCities={this.state.selectedCities} />
+            <MultiSelect onDelete={this.unselectCity} selectedCities={this.state.selectedCities} onValidate={() => this.setState({ enough_city: this.state.selectedCities.length > 4 })} />
           </Col>
         </Row>
-
+        <Row>
+          <Col xs={{ size: 3, offset: 2 }}>
+            <FormGroup>
+              <InputGroup>
+                <Input type="checkbox" id="checkbox" onChange={()=>
+                  this.setState({isRandom: !this.state.isRandom})} />
+                <Label for="checkbox" check>Select random cities</Label>
+                <Input placeholder="Amount" id="cities_number" value={this.state.amout_city} onChange={(e) => this.setState({amout_city: e.target.value})} />
+              </InputGroup>
+            </FormGroup>
+          </Col>
+        </Row>
         <Row>
           <Col xs={{ size: 10, offset: 1 }}>
             <div className="label">Selection Methodes</div>
           </Col>
         </Row>
-        {this.state.selectedMethodes.map((methode, index) => (
-          <Row className="selectMethode"  key={index}>
+        {this.state.selectedMethods.map((methode, index) => (
+          <Row className="selectMethode" key={index}>
             <Col xs={{ size: 10, offset: 1 }}>
               <SelectMethode className="selectMethode" selectedMethode={methode} methodes={this.methodes} onUpdate={(m) => this.updateSelectedMethode(m, index)} />
             </Col>
@@ -78,11 +94,13 @@ export class Home extends Component {
           </Row>))}
 
         <div className="addIcon unselectable"><img src="plus.svg" onClick={this.addSelectedMethode} /></div>
-        <Row className="validateForm">
-          <Col xs={{ size: 10, offset: 1 }}>
-            <Button color="primary" onClick={this.sendForm}>Compare</Button>
-          </Col>
-        </Row>
+        {(this.state.enough_city || this.state.isRandom && this.state.amout_city > 4 ) &&
+          (<Row className="validateForm">
+            <Col xs={{ size: 10, offset: 1 }}>
+              <Link to="/compare"><Button color="primary" onClick={this.sendForm}>Compare</Button></Link>
+            </Col>
+          </Row>)}
+
       </div>
     );
     let contents = this.state.loading ? loadingSpinner : body;
@@ -97,13 +115,8 @@ export class Home extends Component {
 
   }
 
-  sendForm(){
-    let json = {
-      token: this.token,
-      cities: this.state.selectedCities,
-      methodes: this.state.selectedMethodes
-    }
-    console.log(json);
+  sendForm() {
+    this.onValidateForm(this.token, this.state.selectedCities, this.state.selectedMethods, this.state.isRandom, this.state.amout_city)
   }
 
   async setup() {
@@ -111,6 +124,6 @@ export class Home extends Component {
     const data = await response.json();
     this.token = data.token;
     this.methodes = data.selectionMethodes.map(methode => { return { name: methode.m_Item1, factor: methode.m_Item2 } })
-    this.setState({ selectedMethodes: [{ name: this.methodes[0].name, factor: this.methodes[0].factor }], loading: false });
+    this.setState({ selectedMethods: [{ name: this.methodes[0].name, factor: this.methodes[0].factor }], loading: false });
   }
 }
