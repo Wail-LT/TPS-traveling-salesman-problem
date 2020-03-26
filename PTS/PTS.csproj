@@ -21,13 +21,21 @@
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="API\NewFolder\**" />
     <Compile Remove="ClientApp\client\**" />
     <Content Remove="$(SpaRoot)**" />
+    <Content Remove="API\NewFolder\**" />
     <Content Remove="ClientApp\client\**" />
+    <EmbeddedResource Remove="API\NewFolder\**" />
     <EmbeddedResource Remove="ClientApp\client\**" />
     <None Remove="$(SpaRoot)**" />
+    <None Remove="API\NewFolder\**" />
     <None Remove="ClientApp\client\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Remove="API\NewFolder\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -40,7 +48,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="API\NewFolder\" />
     <Folder Include="App\Managers\" />
     <Folder Include="App\Objects\" />
     <Folder Include="App\Utils\" />
