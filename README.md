@@ -90,3 +90,6 @@ Nous avons suivit le workflow suivant :
 - C# (API) : Ayant d'ores et déjà eu des expériences avec Java JEE, nous avons décidé de saisir l'occasion que nous a offert ce projet, pour gagner en compétence en C#, et apprendre à créer une API avec  ASP.NET Core (compatible Mac os et Windows)
 
 - React (ClientApp) : Tout comme pour le C#, c'etait une occasion pour nous d'apprendre à utiliser le frameworks React.js.
+
+
+# Pour plus d'information CF. [Rapport du projet]() 
