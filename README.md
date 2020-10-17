@@ -45,5 +45,42 @@ Par la suite ces deux algorithmes seront comparés à notre propre algorithme, a
 
 Tout d’abord, en guise de préliminaires, nous avons décidé que plutôt que de choisir aléatoirement la population initiale, nous choisirions 2 trajets optimisés(trajets avec des distances totales pas trop mauvaises). L’idée est de générer grâce à ces deux trajets, une première population par un algorithme que l’on a baptisé [Adam et Eve](https://github.com/WellsL/PTS/blob/master/Rapport-PTS-Groupe10.pdf).
 
+#### Sélection
+
+Une fois la population initiale obtenue, nous allons procéder à la prochaine étape : Le Croisement.
+
+1) On commence par trier les trajets par fitness. (Rappel : la fitness est la distance en kilomètres, donc on cherche la meilleure fitness qui sera la plus petite).
+
+2) On divise ensuite la population en deux. Les 15% meilleurs constitueront notre première sous-population (notons PopA) et les 85% restants la population la sous- population B (notons PopB).
+
+####  Croisement
+
+L’idée est de faire se reproduire les bons individus avec les moins bons. Contrairement à la méthode élitiste où l’on ne garde que les meilleurs, nous avons décidé de procéder ainsi car il se peut qu’un parent a priori mauvais possède tout de même un gène (une partie de trajet)
+puissant. Ainsi, on garde une chance de récupérer de bons éléments.
+
+1) Chaque individu de PopA se reproduit avec un individu de PopB. L’heureux élu est déterminé par une sélection stochastique sur PopB pour accroître la part de hasard. Le croisement se fait avec un taux de mutation élevé pour éviter de stagner.
+
+2) On répète l’opération autant que nécessaire pour obtenir le nombre n d’individus désiré.
+
+Ainsi, on a obtenu la population de n individus de la 1ère génération !
+
+Pour créer les générations suivantes, on reprend à partir de la sélection (l’initialisation ne se fait qu’une seule fois au tout début).
+
 ### API / Interface web
-Afin de comparer les differents 
+
+Afin de comparer les différentes sélections, nous avons décidé de mettre en place une interface web en ReactJS, et une API en C#.
+Cette interface nous permettra de visualiser facilement les résultats via des graphiques, elle facilitera aussi le choix des algorithmes à comparer, ainsi que la liste des villes à visiter. 
+
+Pour être sûr de terminer en temps et en heure, et d'avoir un produit à présenter, nous avons utiliser le concepte [MVP (Minimum Viable Product)](https://fr.wikipedia.org/wiki/Produit_minimum_viable).
+
+Nous avons suivit le workflow suivant :
+
+1) Recherche d'une base de données
+
+2) Création d'une base de données MySQL + Importation des données
+
+3) Développement de l'application console (App) : permettant de comparer les différentes méthodes de selections
+
+4) Développement de l'API (App) : permettant d'exposer l'application (App) grâce à des EndPoints
+
+5) Développement de l'interface Web (ClientApp)
