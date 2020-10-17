@@ -81,6 +81,12 @@ Nous avons suivit le workflow suivant :
 
 3) Développement de l'application console (App) : permettant de comparer les différentes méthodes de selections
 
-4) Développement de l'API (App) : permettant d'exposer l'application (App) grâce à des EndPoints
+4) Développement de l'API (API) : permettant d'exposer l'application (App) grâce à des EndPoints
 
-5) Développement de l'interface Web (ClientApp)
+5) Développement de l'interface Web (ClientApp) : permettant la visualisation des résultats, et les appels de l'API
+
+#### Choix des Technologies
+
+- C# (API) : Ayant d'ores et déjà eu des expériences avec Java JEE, nous avons décidé de saisir l'occasion que nous a offert ce projet, pour gagner en compétence en C#, et apprendre à créer une API avec  ASP.NET Core (compatible Mac os et Windows)
+
+- React (ClientApp) : Tout comme pour le C#, c'etait une occasion pour nous d'apprendre à utiliser le frameworks React.js.
