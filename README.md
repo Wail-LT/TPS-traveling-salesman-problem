@@ -43,7 +43,7 @@ Par la suite ces deux algorithmes seront comparés à notre propre algorithme, a
 
 #### Initialisation
 
-Tout d’abord, en guise de préliminaires, nous avons décidé que plutôt que de choisir aléatoirement la population initiale, nous choisirions 2 trajets optimisés(trajets avec des distances totales pas trop mauvaises). L’idée est de générer grâce à ces deux trajets, une première population par un algorithme que l’on a baptisé Adam et Eve.
+Tout d’abord, en guise de préliminaires, nous avons décidé que plutôt que de choisir aléatoirement la population initiale, nous choisirions 2 trajets optimisés(trajets avec des distances totales pas trop mauvaises). L’idée est de générer grâce à ces deux trajets, une première population par un algorithme que l’on a baptisé [Adam et Eve](https://github.com/WellsL/PTS/blob/master/Rapport-PTS-Groupe10.pdf).
 
 ### API / Interface web
 Afin de comparer les differents 
