@@ -92,4 +92,4 @@ Nous avons suivit le workflow suivant :
 - React (ClientApp) : Tout comme pour le C#, c'etait une occasion pour nous d'apprendre à utiliser le frameworks React.js.
 
 
-# Pour plus d'information CF. [Rapport du projet]() 
+# Pour plus d'information CF. [Rapport du projet](https://github.com/WellsL/PTS/blob/master/Rapport-PTS-Groupe10.pdf) 
