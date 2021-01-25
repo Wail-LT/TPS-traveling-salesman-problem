@@ -1,4 +1,4 @@
-# PTS
+# Projet Technique et Scientifique
  
 Dans le cadre de notre PTS (Projet Technique et Scientifique) de 4ème année, différents sujets nous ont été proposés. Nous avons choisi de nous tourner vers un problème d’optimisation mathématique, l’idée de travailler sur un sujet avec de nombreuses solutions existantes, et être dans une démarche de recherche pour essayer de trouver autre chose, de peut-être plus performant nous plaisait beaucoup. 
 Nous avons donc choisi le "Traitement du problème du voyageur de commerce par les algorithmes génétiques".
