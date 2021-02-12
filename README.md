@@ -68,7 +68,7 @@ Pour créer les générations suivantes, on reprend à partir de la sélection (
 
 ### API / Interface web
 
-Afin de comparer les différentes sélections, nous avons décidé de mettre en place une interface web en ReactJS, et une API en C#.
+Afin de comparer les différentes sélections, nous avons décidé de mettre en place une interface web en ReactJS, et une API en C#/.Net Core.
 Cette interface nous permettra de visualiser facilement les résultats via des graphiques, elle facilitera aussi le choix des algorithmes à comparer, ainsi que la liste des villes à visiter. 
 
 Pour être sûr de terminer en temps et en heure, et d'avoir un produit à présenter, nous avons utiliser le concepte [MVP (Minimum Viable Product)](https://fr.wikipedia.org/wiki/Produit_minimum_viable).
@@ -87,7 +87,7 @@ Nous avons suivit le workflow suivant :
 
 #### Choix des Technologies
 
-- C# (API) : Ayant d'ores et déjà eu des expériences avec Java JEE, nous avons décidé de saisir l'occasion que nous a offert ce projet, pour gagner en compétence en C#, et apprendre à créer une API avec  ASP.NET Core (compatible Mac os et Windows)
+- C#/.Net Core (API) : Ayant d'ores et déjà eu des expériences avec Java JEE, nous avons décidé de saisir l'occasion que nous a offert ce projet, pour gagner en compétence en C#, et apprendre à créer une API avec  ASP.NET Core (compatible Mac os et Windows)
 
 - React (ClientApp) : Tout comme pour le C#, c'etait une occasion pour nous d'apprendre à utiliser le frameworks React.js.
 
